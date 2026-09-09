@@ -22,6 +22,7 @@ Bridge 是连接个人 Agent 的协作层，计划提供身份绑定、联系人
 
 ## 文档入口
 
+- [新对话交接：讨论总结与深入探索问题](docs/HANDOFF.md)
 - [产品需求与首个验证场景](docs/PRODUCT.md)
 - [架构与通信约定草案](docs/ARCHITECTURE.md)
 - [GitHub 相似项目调研与选型建议](docs/RELATED_PROJECTS.md)

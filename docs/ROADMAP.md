@@ -31,4 +31,4 @@
 
 ## 给后续开发对话的提示
 
-请先阅读 README.md、docs/PRODUCT.md、docs/ARCHITECTURE.md 和 docs/RELATED_PROJECTS.md。Agent Bridge 的目标是连接不同人的专属 Agent，覆盖工作与生活。当前只有文档，尚未实现服务。优先核查已有方案和选定协议的可行性，再实现模拟日历下的两人协商闭环；必须将协议通信成功、双方业务确认和外部执行成功分开。依据 PRODUCT.md 的验收标准验证，并在文档中记录实际运行命令和未完成事项。
+请先阅读 [新对话交接](HANDOFF.md)，再阅读 README.md、docs/PRODUCT.md、docs/ARCHITECTURE.md 和 docs/RELATED_PROJECTS.md。当前用户希望继续深入探索，先讨论需求、现有方案和产品差异。约时间、A2A、单服务与技术栈均为候选建议，尚未由用户最终确定。进入实施后，再依据确认的场景与 PRODUCT.md 验收标准推进，并记录实际运行命令和未完成事项。
