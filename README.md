@@ -1,5 +1,7 @@
 # Agent Bridge
 
+[简体中文](README.md) | [English](README.en.md)
+
 让不同人的专属 AI Agent 在各自主人的授权范围内交流、协商并完成协作。
 
 Connect people's personal AI agents for permission-aware communication and collaboration.
@@ -41,5 +43,7 @@ Agent2Agent（A2A，智能体间通信协议）是早期通信基础候选，技
 ## 开源与参与
 
 Agent Bridge 以 [MIT 许可证](LICENSE) 开源。目前开放的是产品探索、需求与设计文档，尚无可运行服务。欢迎通过 [Issues](https://github.com/jizw0704-source/agent-bridge/issues) 分享工作或生活中的真实协作需求、讨论产品方案，或提交文档改进。
+
+欢迎使用中文或英文参与讨论。英文文档从 [English README](README.en.md) 进入；产品决策与状态变更应同步更新中英文版本。
 
 分享案例时请去除个人身份、联系方式、合同原文、账户信息和凭证。文档中提及的第三方项目遵循各自的许可证。

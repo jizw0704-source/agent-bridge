@@ -1,5 +1,7 @@
 # GitHub 相似项目调研
 
+[简体中文](RELATED_PROJECTS.md) | [English](en/RELATED_PROJECTS.md)
+
 核查日期：2026-09-09。方法：搜索发现候选项目，再通过 GitHub API 核对仓库元数据并阅读 README 或官方文档。这是有代表性的初筛，不是全网穷尽，也不是源码安全审计或运行测试。
 
 ## 初步判断

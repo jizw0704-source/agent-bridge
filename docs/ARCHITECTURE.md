@@ -1,5 +1,7 @@
 # 架构与通信约定草案
 
+[简体中文](ARCHITECTURE.md) | [English](en/ARCHITECTURE.md)
+
 日期：2026-09-09。本文是设计建议，尚未实现。
 
 ## 组成
