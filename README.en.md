@@ -4,7 +4,7 @@
 
 Connect people's personal AI agents so they can communicate, negotiate, and coordinate within the permissions each person grants.
 
-**Status: product exploration and design drafts. There is no runnable service yet.** Started on September 9, 2026.
+**Status: product exploration plus a runnable local communication demo. Two real Codex replies were verified on October 20, 2026. No cross-machine service exists yet.** Started on September 9, 2026.
 
 ## Why Agent Bridge?
 
@@ -26,6 +26,10 @@ Agent2Agent (A2A) is an early protocol candidate. We will choose the technical a
 
 Related projects already exist, particularly EnvoyMesh and Tacit. We do not claim that this idea is unique. We need to test whether AB makes integration easier, reduces the effort of coordination, and respects the permissions people grant.
 
+## Run locally
+
+Run `pnpm install --frozen-lockfile`, then `pnpm demo`. Requires Node.js 22+, pnpm, and an authenticated Codex CLI. Scripted Wright queues two messages; real Codex replies in one conversation against a read-only fictional workspace. Real project code is not modified. See the [run guide](docs/en/LOCAL_DEMO.md).
+
 ## Documentation
 
 - [Worked collaboration example with Wright and mechanism diagram](docs/en/WRIGHT_COLLABORATION.md)
@@ -38,9 +42,9 @@ Related projects already exist, particularly EnvoyMesh and Tacit. We do not clai
 
 ## What exists today
 
-Completed: concept documentation, initial requirements, an architecture draft, and a preliminary review of related projects.
+Completed: product documents and a local scripted-peer demo with two real Codex replies, durable state, and deduplication checks.
 
-Still to do: a runnable prototype, identity verification across users, real agent and GitHub integrations, permission tests, and user trials. Calendar integration belongs to a later candidate scenario. Protocol and technology choices remain proposals; no dependencies have been selected.
+Still to do: cross-user identity verification, continuous reception, two real agent endpoints, GitHub integration, full permission tests, and user trials. Calendar integration belongs to a later candidate scenario. Protocol and technology choices remain proposals; no dependencies have been selected.
 
 This repository contains no real conversations, calendars, personal credentials, or third-party source code.
 

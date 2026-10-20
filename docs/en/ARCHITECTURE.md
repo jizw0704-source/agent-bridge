@@ -2,6 +2,8 @@
 
 [简体中文](../ARCHITECTURE.md) | [English](ARCHITECTURE.md) · [Project home](../../README.en.md)
 
+October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+
 Design baseline: September 9, 2026. English edition: September 10, 2026. These are early proposals, not an implemented or selected architecture. Product exploration takes priority.
 
 October 20, 2026 update: the first scenario and entry point are selected in the [worked example](WRIGHT_COLLABORATION.md). The single-service, protocol, and state-machine proposals below remain early candidates. Development collaboration tracks task, approval, merge, and release states separately.

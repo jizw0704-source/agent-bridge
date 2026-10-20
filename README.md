@@ -6,7 +6,7 @@
 
 Connect people's personal AI agents for permission-aware communication and collaboration.
 
-状态：需求与方案草案，尚无可运行服务。创建于 2026-09-09。
+状态：产品探索＋本机最小通信演示。2026-10-20 已验证真实 Codex 两轮回复；尚无跨机器服务。创建于 2026-09-09。
 
 ## 为什么做这个项目
 
@@ -24,6 +24,10 @@ Agent2Agent（A2A，智能体间通信协议）是早期通信基础候选，技
 
 已有相近项目，尤其是 EnvoyMesh 和 Tacit，因此不主张这个想法独有。项目价值需要通过实际使用验证：是否更容易接入现有 Agent，是否减少人的沟通成本，是否能准确遵守授权边界。
 
+## 本机运行
+
+`pnpm install --frozen-lockfile` 后运行 `pnpm demo`。需要 Node.js 22+、pnpm 和已登录的 Codex CLI。模拟 Wright 自动投递两条消息，真实 Codex 在同一会话中回复；只读演示目录，不修改真实项目。见[运行说明](docs/LOCAL_DEMO.md)。
+
 ## 文档入口
 
 - [与 Wright 协作的完整样例与机理图](docs/WRIGHT_COLLABORATION.md)
@@ -36,15 +40,15 @@ Agent2Agent（A2A，智能体间通信协议）是早期通信基础候选，技
 
 ## 当前交付与边界
 
-已完成：概念整理、首版需求、架构草案、相似项目资料核对。
+已完成：产品文档，以及单机脚本模拟 Wright 的收件、真实 Codex 两轮回复、状态持久化与去重验证。
 
-待完成：可运行原型、跨用户身份验证、真实 Agent 与 GitHub 接入、权限测试与用户试用。日历属于后续候选场景。协议和技术栈仍是建议，尚未锁定依赖。
+待完成：跨用户身份验证、持续收件、双方真实 Agent 与 GitHub 接入、完整权限测试与用户试用。日历属于后续候选场景。协议和技术栈仍是建议，尚未锁定依赖。
 
 仓库不包含真实聊天记录、日历、个人凭证或第三方源码。
 
 ## 开源与参与
 
-Agent Bridge 以 [MIT 许可证](LICENSE) 开源。目前开放的是产品探索、需求与设计文档，尚无可运行服务。欢迎通过 [Issues](https://github.com/jizw0704-source/agent-bridge/issues) 分享工作或生活中的真实协作需求、讨论产品方案，或提交文档改进。
+Agent Bridge 以 [MIT 许可证](LICENSE) 开源。目前包含产品文档和本机最小演示，尚无跨机器运行服务。欢迎通过 [Issues](https://github.com/jizw0704-source/agent-bridge/issues) 分享工作或生活中的真实协作需求、讨论产品方案，或提交文档改进。
 
 欢迎使用中文或英文参与讨论。英文文档从 [English README](README.en.md) 进入；产品决策与状态变更应同步更新中英文版本。
 

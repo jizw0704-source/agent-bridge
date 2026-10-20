@@ -2,6 +2,8 @@
 
 [简体中文](../PRODUCT.md) | [English](PRODUCT.md) · [Project home](../../README.en.md)
 
+October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+
 Updated: October 20, 2026. The project is in exploration. Selected directions and unselected proposals are identified separately; nothing below has been implemented.
 
 ## Selected first scenario and entry point

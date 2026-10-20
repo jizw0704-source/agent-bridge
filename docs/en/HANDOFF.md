@@ -2,6 +2,8 @@
 
 [简体中文](../HANDOFF.md) | [English](HANDOFF.md) · [Project home](../../README.en.md)
 
+October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+
 Original exploration record: September 9, 2026. Latest update: October 20, 2026.
 
 ## Latest progress: takes precedence over earlier suggestions
