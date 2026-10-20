@@ -2,6 +2,8 @@
 
 [简体中文](../LOCAL_DEMO.md) | [English](LOCAL_DEMO.md)
 
+Update: the [continuous receiver](MAC_RECEIVER.md) supports background waiting and multiple rounds. This page describes the original fixed two-round demo, retained as `pnpm demo`.
+
 October 20, 2026: a runnable local communication experiment. Wright is scripted; Mac replies come from real Codex CLI calls. No remote service, desktop plugin, real GitHub writes, or Windows tests are included.
 
 ## Run

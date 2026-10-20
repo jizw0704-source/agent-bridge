@@ -4,7 +4,7 @@
 
 Connect people's personal AI agents so they can communicate, negotiate, and coordinate within the permissions each person grants.
 
-**Status: product exploration plus a runnable local communication demo. Two real Codex replies were verified on October 20, 2026. No cross-machine service exists yet.** Started on September 9, 2026.
+**Status: product exploration plus a communication pilot. On October 20, 2026, a company LAN HTTPS relay was deployed and a Mac completed two simulated messaging rounds through it. Actual Windows/Wright interoperability remains unverified.** Started on September 9, 2026.
 
 ## Why Agent Bridge?
 
@@ -26,6 +26,20 @@ Agent2Agent (A2A) is an early protocol candidate. We will choose the technical a
 
 Related projects already exist, particularly EnvoyMesh and Tacit. We do not claim that this idea is unique. We need to test whether AB makes integration easier, reduces the effort of coordination, and respects the permissions people grant.
 
+## LAN two-peer pilot (v0.3.0)
+
+HTTPS relay, expiring single-use invitations, mutual confirmation, two pulling connectors, and request/reply deduplication are implemented. A Mac or LAN server hosts the relay; Windows uses the same connector. See the [LAN guide](docs/en/LAN_PILOT.md) and [server deployment record](docs/en/SERVER_DEPLOYMENT.md). Actual Windows interoperability with Wright remains to validate.
+
+See [Mac connector validation](docs/en/MAC_SERVER_CONNECTOR.md). For actual Windows setup, see [Wright onboarding](docs/en/WINDOWS_ONBOARDING.md).
+
+## Codex skill
+
+Use `$agent-bridge` to inspect connections, prepare handoffs and perform authorized pairing operations. See [installation and usage](docs/en/SKILL_USAGE.md). The skill neither replaces the background connector nor expands the fictional pilot scope.
+
+## Continuous inbox (v0.2.0)
+
+Run `pnpm inbox init` and `pnpm inbox start`, then queue a fixture with `pnpm inbox mock 1`. The background worker waits, replies, and supports stop/restart. See the [Mac receiver guide](docs/en/MAC_RECEIVER.md). Only fictional tasks are handled; real project code is not modified.
+
 ## Run locally
 
 Run `pnpm install --frozen-lockfile`, then `pnpm demo`. Requires Node.js 22+, pnpm, and an authenticated Codex CLI. Scripted Wright queues two messages; real Codex replies in one conversation against a read-only fictional workspace. Real project code is not modified. See the [run guide](docs/en/LOCAL_DEMO.md).
@@ -42,15 +56,15 @@ Run `pnpm install --frozen-lockfile`, then `pnpm demo`. Requires Node.js 22+, pn
 
 ## What exists today
 
-Completed: product documents and a local scripted-peer demo with two real Codex replies, durable state, and deduplication checks.
+Completed: product documents, local real Codex replies, continuous scripted reception, a LAN HTTPS relay, and company server deployment. A Mac passed two simulated messaging rounds and restart persistence through the server.
 
-Still to do: cross-user identity verification, continuous reception, two real agent endpoints, GitHub integration, full permission tests, and user trials. Calendar integration belongs to a later candidate scenario. Protocol and technology choices remain proposals; no dependencies have been selected.
+Still to do: real owner identity comparison, actual Windows/Wright reception, two real agent endpoints, GitHub integration, full permission tests, and user trials. Calendar integration belongs to a later candidate scenario. The prototype uses built-in Node.js capabilities without third-party runtime dependencies; long-term protocol and deployment choices remain open.
 
 This repository contains no real conversations, calendars, personal credentials, or third-party source code.
 
 ## Open source and participation
 
-Agent Bridge is published under the [MIT License](LICENSE). The current contribution opportunity is product exploration and documentation. Share a work or everyday-life coordination problem, discuss a proposal, or suggest a documentation improvement through [Issues](https://github.com/jizw0704-source/agent-bridge/issues) or a pull request.
+Agent Bridge is published under the [MIT License](LICENSE). The current pilot includes documentation, local demos, and LAN transport, with an onboarding skill and validation records. Share a work or everyday-life coordination problem, discuss a proposal, or suggest a documentation improvement through [Issues](https://github.com/jizw0704-source/agent-bridge/issues) or a pull request.
 
 **English and Chinese contributions are welcome.** Keep product decisions and status changes aligned in both language versions.
 

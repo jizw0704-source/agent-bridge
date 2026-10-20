@@ -6,7 +6,7 @@
 
 Connect people's personal AI agents for permission-aware communication and collaboration.
 
-状态：产品探索＋本机最小通信演示。2026-10-20 已验证真实 Codex 两轮回复；尚无跨机器服务。创建于 2026-09-09。
+状态：产品探索＋通信试验版。2026-10-20 已部署公司内网 HTTPS 中转，并验证 Mac 经服务器完成模拟两轮收发；真实 Windows／Wright 接入待验收。创建于 2026-09-09。
 
 ## 为什么做这个项目
 
@@ -24,6 +24,20 @@ Agent2Agent（A2A，智能体间通信协议）是早期通信基础候选，技
 
 已有相近项目，尤其是 EnvoyMesh 和 Tacit，因此不主张这个想法独有。项目价值需要通过实际使用验证：是否更容易接入现有 Agent，是否减少人的沟通成本，是否能准确遵守授权边界。
 
+## 局域网双端试验（v0.3.0）
+
+已实现 HTTPS 中转、单次限时邀请、双方确认、两端主动收件及请求／回复去重。Mac 或内网服务器可运行中转，Windows 使用同一连接器。见[局域网接入说明](docs/LAN_PILOT.md)与[服务器部署记录](docs/SERVER_DEPLOYMENT.md)。真实 Windows 与 Wright 联机仍需验收。
+
+Mac 后台接入与验证见 [Mac 连接器说明](docs/MAC_SERVER_CONNECTOR.md)。Windows 的实际接入步骤见 [Wright 接入说明](docs/WINDOWS_ONBOARDING.md)。
+
+## Codex Skill
+
+可使用 `$agent-bridge` 检查连接、准备交接和按授权完成配对操作。见 [Skill 安装与使用](docs/SKILL_USAGE.md)。技能不会替代后台连接器或扩大当前虚构任务范围。
+
+## 持续自动收件（v0.2.0）
+
+运行 `pnpm inbox init` 与 `pnpm inbox start`，随后用 `pnpm inbox mock 1` 投递模拟消息。后台持续等待、自动回复并支持停止／重启。见[Mac 持续收件说明](docs/MAC_RECEIVER.md)。只处理演示任务，不修改真实项目。
+
 ## 本机运行
 
 `pnpm install --frozen-lockfile` 后运行 `pnpm demo`。需要 Node.js 22+、pnpm 和已登录的 Codex CLI。模拟 Wright 自动投递两条消息，真实 Codex 在同一会话中回复；只读演示目录，不修改真实项目。见[运行说明](docs/LOCAL_DEMO.md)。
@@ -40,15 +54,15 @@ Agent2Agent（A2A，智能体间通信协议）是早期通信基础候选，技
 
 ## 当前交付与边界
 
-已完成：产品文档，以及单机脚本模拟 Wright 的收件、真实 Codex 两轮回复、状态持久化与去重验证。
+已完成：产品文档、本机真实 Codex 回复、持续模拟收件、局域网 HTTPS 中转及公司服务器部署；Mac 经服务器完成两轮模拟消息和重启持久化验收。
 
-待完成：跨用户身份验证、持续收件、双方真实 Agent 与 GitHub 接入、完整权限测试与用户试用。日历属于后续候选场景。协议和技术栈仍是建议，尚未锁定依赖。
+待完成：双方真实身份核对、Windows／Wright 实际接入、真实双端 Agent 与 GitHub 接入、完整权限测试与用户试用。日历属于后续候选场景。当前原型使用 Node.js 内置能力，无第三方运行依赖；长期协议与部署仍可调整。
 
 仓库不包含真实聊天记录、日历、个人凭证或第三方源码。
 
 ## 开源与参与
 
-Agent Bridge 以 [MIT 许可证](LICENSE) 开源。目前包含产品文档和本机最小演示，尚无跨机器运行服务。欢迎通过 [Issues](https://github.com/jizw0704-source/agent-bridge/issues) 分享工作或生活中的真实协作需求、讨论产品方案，或提交文档改进。
+Agent Bridge 以 [MIT 许可证](LICENSE) 开源。目前包含产品文档、本机演示与局域网中转试验，并提供接入 Skill 与验证记录。欢迎通过 [Issues](https://github.com/jizw0704-source/agent-bridge/issues) 分享工作或生活中的真实协作需求、讨论产品方案，或提交文档改进。
 
 欢迎使用中文或英文参与讨论。英文文档从 [English README](README.en.md) 进入；产品决策与状态变更应同步更新中英文版本。
 

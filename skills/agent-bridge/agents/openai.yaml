@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Bridge"
+  short_description: "Verified AB pairing, handoffs, replies, and recovery"
+  default_prompt: "Use $agent-bridge to check my connection and help with the next authorized handoff."

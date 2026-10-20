@@ -2,21 +2,29 @@
 
 [简体中文](../HANDOFF.md) | [English](HANDOFF.md) · [Project home](../../README.en.md)
 
-October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+October 20, 2026 skill update: `skills/agent-bridge` is installed on the Mac, providing live status inspection and guided Mac/Windows pairing and authorized handoffs. A credential-free skill archive is available; see [usage](SKILL_USAGE.md). Native Windows remains unverified; the skill does not expand communication authority.
+
+October 20, 2026 Mac connector update: the LaunchAgent completed two real Codex replies to simulated Wright through the server. A separate real Mac identity is waiting for mutual pairing. See [Mac setup](MAC_SERVER_CONNECTOR.md) and [Windows onboarding](WINDOWS_ONBOARDING.md). Invitations can be refreshed; actual Windows operation remains unverified.
+
+Latest, October 20, 2026: [company LAN server deployment](SERVER_DEPLOYMENT.md) passed two simulated messaging rounds from a Mac over the actual network, including persistence across service restart. Windows/Wright has not joined. This update supersedes earlier status descriptions below.
+
+October 20, 2026 v0.3.0: the [LAN two-peer pilot](LAN_PILOT.md) adds an HTTPS relay, expiring one-use invites, mutual confirmation, deduplication, and independent inbox connectors. Development and validation use fictional tasks without real project edits. Actual Windows interoperability with Wright remains unverified; the local receiver is retained.
+
+October 20, 2026 v0.2.0: the [continuous Mac receiver](MAC_RECEIVER.md) waits for local scripted Wright messages and calls real Codex, with serial rounds, stop/restart, deduplication, and quarantine. Idle waiting makes no model calls. Cross-machine transport, GitHub writes, and desktop plugins remain unimplemented. Earlier product descriptions below are design baselines; this update and the run guide take precedence.
 
 Original exploration record: September 9, 2026. Latest update: October 20, 2026.
 
 ## Latest progress: takes precedence over earlier suggestions
 
-- 2026-10-20: The selected first scenario is cross-platform application development with Wright: Mac/new-feature handoffs to Windows, multiple clarification rounds, change feedback, and PR review. The selected product approach is handoffs inside existing agents, AB inboxes and a progress view, and GitHub task references. See the [worked example](WRIGHT_COLLABORATION.md). Action permissions, integrations, and technology remain undecided; no runnable implementation exists.
+- 2026-10-20: The selected first scenario is cross-platform application development with Wright: Mac/new-feature handoffs to Windows, multiple clarification rounds, change feedback, and PR review. The selected product approach is handoffs inside existing agents, AB inboxes and a progress view, and GitHub task references. See the [worked example](WRIGHT_COLLABORATION.md). A Node.js LAN pilot and Mac Codex integration are implemented; real-project action permissions and the full product interface remain to be designed and validated.
 
-- The initiator requested open source publication. The repository is public under the MIT License. Published material consists of product and design documentation; there is no runnable service.
+- The initiator requested open source publication. The repository is public under the MIT License. The current version includes product documentation, runnable pilot code, and an onboarding skill.
 - The selected product direction is **automatic context organization with a Scenario Card**. The agent prepares relevant roles, goals, preferences, and information for the current situation, in a form the person can inspect and adjust. See [Product requirements v0.3](PRODUCT.md).
 - Adding agent contacts creates ongoing interpersonal connections. Roles and situations shape how the agent represents its person; a contact relationship does not grant access to the entire personal profile.
 - Renting is the current discussion example, covering contract understanding, actionable proposals for payment arrangements, deposits, and renewal follow-up. It is not a selected first MVP.
 - Private evaluation context must be distinguished from information disclosed to the counterpart. Storage location, interface, confirmation timing, automatic commitments, and payment permissions remain undecided.
 - Discuss one topic at a time, presenting concrete options, tradeoffs, and a recommendation before inviting a choice or revision. Avoid repeated open-ended questioning.
-- A proposed flow is: a one-sentence request → automatic card preparation → agent negotiation → follow-up based on agreed terms. A conversation-centered interface with an expandable card and separate personal/counterpart views has been suggested, not selected. Continue from these proposals rather than restarting the discussion or beginning technical implementation.
+- A proposed flow is: a one-sentence request → automatic card preparation → agent negotiation → follow-up based on agreed terms. A conversation-centered interface with an expandable card and separate personal/counterpart views has been suggested, not selected. Continue from these proposals rather than restarting the discussion and keep implementation within the authorized pilot scope.
 - English documentation was requested to make the project accessible to an international audience. Keep both language versions aligned on decisions, scope, and status; English and Chinese discussion contributions are welcome.
 
 ## 1. Intent
@@ -62,7 +70,7 @@ Other candidate scenarios include work coordination, client requests, research e
 - Incoming messages can request actions but cannot rewrite local permissions.
 - Even sharing time slots reveals information. Minimal necessary disclosure is not zero disclosure.
 - A self-hostable central service and end-to-end encryption are distinct capabilities.
-- Real integrations depend on official interfaces offered by each agent product. None has yet been verified.
+- Real integrations depend on official interfaces offered by each agent product. Mac Codex CLI integration is verified; actual Windows operation remains unverified.
 
 ## 5. Related projects
 
@@ -85,8 +93,8 @@ Communication protocols and personal agent collaboration are not empty fields. D
 - Maintainer's existing local checkout: `/Users/bertil/Documents/agent-bridge`. Other contributors should use their own checkout path.
 - Initial documentation commit: `6a12a19`, pushed and checked at the time. Consult Git history for subsequent changes.
 - Includes a README, product requirements, architecture draft, related-project research, roadmap, handoff, and AGENTS.md. English editions are now available for the README and all six documents, including the worked example.
-- No application code, running service, dependency lockfiles, or real calendar/agent integrations.
-- Documentation whitespace and local links have been checked. There is no application formatter, linter, type checker, test suite, or build.
+- Includes Node.js pilot code, a pnpm lockfile, HTTPS relay, Mac Codex connector, and skill. There is no real calendar integration, and Wright has not joined.
+- Validation commands: `pnpm check`, `pnpm test`, and `git diff --check`. There is no separate formatter, linter, type checker, or build.
 
 Creating a repository is not completing the Bridge product. This handoff contains no unrelated conversation history or private chat transcripts.
 
@@ -109,6 +117,6 @@ Present concrete proposals and discuss one issue at a time; do not ask for answe
 
 ## 8. Reusable continuation prompt
 
-> Continue exploring Agent Bridge at https://github.com/jizw0704-source/agent-bridge. Read AGENTS.md and docs/en/HANDOFF.md first, then the other documents as needed. The core idea is for different people's personal agents to communicate on their behalf across work and everyday life. We selected automatic context organization with a Scenario Card. Our first scenario is cross-platform development with Wright, using existing agents, AB inboxes and a progress view, and GitHub task references. Renting remains an everyday-life example. Continue one topic at a time, presenting concrete options, tradeoffs, and a recommendation before asking for a choice. Clarify real needs and the product experience before technical implementation. Scheduling, A2A, and a single service remain candidates. There is no runnable service yet.
+> Continue exploring Agent Bridge at https://github.com/jizw0704-source/agent-bridge. Read AGENTS.md and docs/en/HANDOFF.md first, then the other documents as needed. The core idea is for different people's personal agents to communicate on their behalf across work and everyday life. We selected automatic context organization with a Scenario Card. Our first scenario is cross-platform development with Wright, using existing agents, AB inboxes and a progress view, and GitHub task references. Renting remains an everyday-life example. Continue one topic at a time, presenting concrete options, tradeoffs, and a recommendation before asking for a choice. Clarify real needs and the product experience before technical implementation. Scheduling, A2A, and a single service remain candidates. A runnable LAN pilot, Mac Codex connector, and onboarding skill exist; next validate actual Windows pairing using fictional tasks.
 
 If a future conversation cannot access the repository, this document can be attached on its own to provide context.

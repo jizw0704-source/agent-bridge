@@ -2,9 +2,9 @@
 
 [简体中文](../ROADMAP.md) | [English](ROADMAP.md) · [Project home](../../README.en.md)
 
-October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+October 20, 2026 v0.3.0: the [LAN two-peer pilot](LAN_PILOT.md) adds an HTTPS relay, expiring one-use invites, mutual confirmation, deduplication, and independent inbox connectors. Development and validation use fictional tasks without real project edits. Actual Windows interoperability with Wright remains unverified; the local receiver is retained.
 
-Updated: October 20, 2026. Product exploration and validation design; no implementation exists.
+Updated: October 20, 2026. A LAN pilot is implemented; the full product remains in exploration and validation.
 
 ## Selected and documented
 
@@ -15,6 +15,8 @@ Updated: October 20, 2026. Product exploration and validation design; no impleme
 - [x] [Bilingual worked example and mechanism diagram](WRIGHT_COLLABORATION.md). Example tests have not been executed.
 
 ## Next: verify integration and authority
+
+The [small-scope pilot](FIRST_PILOT.md) takes precedence: information and recommendations only; no automated code writes or formal approval in this phase.
 
 - [ ] Select an authorized real Issue/PR.
 - [ ] Identify both agents, devices, official integration methods, and offline behavior.

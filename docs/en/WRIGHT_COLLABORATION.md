@@ -2,7 +2,7 @@
 
 [简体中文](../WRIGHT_COLLABORATION.md) | [English](WRIGHT_COLLABORATION.md) · [Project home](../../README.en.md)
 
-October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+October 20, 2026 v0.3.0: the [LAN two-peer pilot](LAN_PILOT.md) adds an HTTPS relay, expiring one-use invites, mutual confirmation, deduplication, and independent inbox connectors. Development and validation use fictional tasks without real project edits. Actual Windows interoperability with Wright remains unverified; the local receiver is retained.
 
 Date: October 20, 2026. Status: selected first scenario and product approach; detailed behavior is a design to validate. No runnable implementation exists.
 

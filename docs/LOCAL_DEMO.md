@@ -2,6 +2,8 @@
 
 [简体中文](LOCAL_DEMO.md) | [English](en/LOCAL_DEMO.md)
 
+更新：现有[持续收件版本](MAC_RECEIVER.md)支持后台等待与多轮消息。下文描述最初固定两轮演示，`pnpm demo` 保留。
+
 2026-10-20：首个可运行的本机通信实验。Wright 是固定脚本；Mac 侧是真实 Codex CLI 调用。没有远程服务、桌面插件、真实 GitHub 写入或 Windows 验证。
 
 ## 启动

@@ -2,13 +2,15 @@
 
 [简体中文](../PRODUCT.md) | [English](PRODUCT.md) · [Project home](../../README.en.md)
 
-October 20, 2026 implementation update: the [local demo](LOCAL_DEMO.md) now runs scripted Wright messages through two real Codex turns in one conversation. Three automated tests pass; observed turns contain no tool calls and the demo workspace is unchanged. Persistent reception, cross-machine transport, GitHub writes, and desktop-chat integration remain unimplemented. Statements below about no implementation describe the earlier design baseline; this update takes precedence.
+October 20, 2026 v0.3.0: the [LAN two-peer pilot](LAN_PILOT.md) adds an HTTPS relay, expiring one-use invites, mutual confirmation, deduplication, and independent inbox connectors. Development and validation use fictional tasks without real project edits. Actual Windows interoperability with Wright remains unverified; the local receiver is retained.
+
+October 20, 2026 v0.2.0: the [continuous Mac receiver](MAC_RECEIVER.md) waits for local scripted Wright messages and calls real Codex, with serial rounds, stop/restart, deduplication, and quarantine. Idle waiting makes no model calls. Cross-machine transport, GitHub writes, and desktop plugins remain unimplemented. Earlier product descriptions below are design baselines; this update and the run guide take precedence.
 
 Updated: October 20, 2026. The project is in exploration. Selected directions and unselected proposals are identified separately; nothing below has been implemented.
 
 ## Selected first scenario and entry point
 
-The selected first scenario is cross-platform application development with Wright: Mac/new-feature handoffs to Windows, multiple clarification rounds, change feedback, and PR review. The selected product approach is handoffs inside existing agents, AB inboxes and a progress view, and GitHub task references. See the [worked example](WRIGHT_COLLABORATION.md). Action permissions, integrations, and technology remain undecided; no runnable implementation exists.
+The selected first scenario is cross-platform application development with Wright: Mac/new-feature handoffs to Windows, multiple clarification rounds, change feedback, and PR review. The selected product approach is handoffs inside existing agents, AB inboxes and a progress view, and GitHub task references. See the [worked example](WRIGHT_COLLABORATION.md). A Node.js LAN pilot and Mac Codex integration are implemented; real-project action permissions and the full product interface remain to be designed and validated.
 
 ## Selected direction: automatic context organization with a Scenario Card
 
