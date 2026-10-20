@@ -1,8 +1,12 @@
-# Product requirements draft v0.2
+# Product requirements draft v0.3
 
 [简体中文](../PRODUCT.md) | [English](PRODUCT.md) · [Project home](../../README.en.md)
 
-Product baseline: September 9, 2026. English edition: September 10, 2026. The project is in exploration. Selected directions and unselected proposals are identified separately; nothing below has been implemented.
+Updated: October 20, 2026. The project is in exploration. Selected directions and unselected proposals are identified separately; nothing below has been implemented.
+
+## Selected first scenario and entry point
+
+The selected first scenario is cross-platform application development with Wright: Mac/new-feature handoffs to Windows, multiple clarification rounds, change feedback, and PR review. The selected product approach is handoffs inside existing agents, AB inboxes and a progress view, and GitHub task references. See the [worked example](WRIGHT_COLLABORATION.md). Action permissions, integrations, and technology remain undecided; no runnable implementation exists.
 
 ## Selected direction: automatic context organization with a Scenario Card
 
@@ -14,9 +18,9 @@ The project initiator selected the third of three options: a personal agent auto
 - The proposed experience shows the organized context for a new type of situation and reuses it over time. Display timing, confirmation rules, reuse boundaries, and what counts as a significant change remain open.
 - Adding an agent contact creates an ongoing relationship that may support multiple tasks. The contact relationship does not grant access to all personal information.
 
-This selection establishes a product direction. We have not decided whether AB stores personal information or obtains it from existing agents, which scenario to validate first, what the interface will be, or which technical approach to use.
+This selection establishes a product direction. We have not decided whether AB stores personal information or obtains it from existing agents, the detailed interface, or the technical approach. The first scenario and entry point are selected above.
 
-## Experience proposal: not yet selected
+## General experience details: still under discussion
 
 Proposed flow: the person describes a task in one sentence → the agent prepares a Scenario Card → the two agents discuss concrete proposals → agreed arrangements support subsequent follow-up. Negotiation outcomes, actual signatures, payments, and execution results must be presented separately.
 
@@ -24,7 +28,7 @@ The suggested interface centers on conversation, with the card available to expa
 
 Show the card proactively for first-time situations or important changes, while minimizing interruptions for familiar tasks. Displaying a card neither requires confirmation every time nor automatically grants authority to make commitments. These flow and view proposals were suggested by the assistant; a request to synchronize documentation does not constitute their acceptance.
 
-## Current discussion scenario: rental arrangements
+## Retained everyday-life scenario: rental arrangements
 
 Renting a home is being used to understand real needs; it has not been selected as the first minimum viable product (MVP). Candidate activities include understanding contract terms, negotiating deposits, arranging payment dates and a transition rental period, and following up on renewal decisions.
 
@@ -36,7 +40,7 @@ A proposal should explain both parties' concerns and specify date boundaries, ca
 
 Each person has a personal agent. When coordination is needed between people, their agents can handle initial communication and return conclusions and questions requiring human judgment.
 
-We want to reduce repeated questions, explanations, and information transfer across work and everyday life: renting, travel and accommodation, meetings, meals with friends, family trips, task coordination, business requests, and research equipment reservations. The first validation scenario is undecided; scheduling is only an early candidate.
+We want to reduce repeated questions, explanations, and information transfer across work and everyday life: renting, travel and accommodation, meetings, meals with friends, family trips, task coordination, business requests, and research equipment reservations. The first validation scenario is cross-platform development with Wright; scheduling remains an early candidate.
 
 ## Roles
 

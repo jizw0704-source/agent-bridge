@@ -2,44 +2,37 @@
 
 [简体中文](../ROADMAP.md) | [English](ROADMAP.md) · [Project home](../../README.en.md)
 
-English edition: September 10, 2026.
+Updated: October 20, 2026. Product exploration and validation design; no implementation exists.
 
-## Current stage: product exploration
+## Selected and documented
 
-We selected automatic context organization with a Scenario Card; see [Product requirements](PRODUCT.md). Phases one through three below preserve an early technical roadmap proposal. The first scenario, execution permissions, technology stack, and protocol have not been selected. This checklist is not authorization to begin implementation.
+- [x] Personal agent coordination across work and everyday life.
+- [x] Automatic context organization with a Scenario Card.
+- [x] First scenario: cross-platform handoffs, multiple communication rounds, and PR review with Wright.
+- [x] Entry point: existing agents, AB inboxes and a progress view, and GitHub references.
+- [x] [Bilingual worked example and mechanism diagram](WRIGHT_COLLABORATION.md). Example tests have not been executed.
 
-- [x] Establish the direction of personal agent coordination across work and everyday life.
-- [x] Document requirements, architecture proposals, and related projects.
-- [x] Select automatic organization by role and scenario, with an inspectable and adjustable Scenario Card.
-- [ ] Discuss the concrete experience, information presentation, and negotiation permissions.
-- [ ] Select the first real-world validation scenario.
-- [ ] Identify initial users and the agents they already use.
-- [ ] Compare projects such as EnvoyMesh to decide whether to build, integrate, or contribute upstream.
+## Next: verify integration and authority
 
-## Phase one candidate: simulated negotiation
+- [ ] Select an authorized real Issue/PR.
+- [ ] Identify both agents, devices, official integration methods, and offline behavior.
+- [ ] Specify task scope, branches, editing/commit/GitHub-write permissions, and revocation.
+- [ ] Define a minimal receipt/reply validation before choosing the stack and protocol.
 
-- [ ] Select and pin a technology stack and protocol version.
-- [ ] Connect two independent identities with simulated calendars and request/proposal exchange.
-- [ ] Handle both parties' confirmation, decline, cancellation, expiration, and negotiation limits.
-- [ ] Verify minimal disclosure, deduplication, and renewed confirmation after a proposal changes.
-- [ ] Provide a simple user interface and readable event records.
+## Then: simulation and minimal interoperability
 
-## Phase two candidate: real agent interoperability
+- [ ] Handoff, acceptance, two clarification/feedback rounds, and visible waiting states.
+- [ ] Check offline behavior, deduplication, cancellation, expiration, out-of-scope requests, and recovery.
+- [ ] Bind tasks, messages, code versions, and evidence to avoid stale conclusions.
+- [ ] Connect actual agents and GitHub; report real writes only after success.
+- [ ] Prototype and verify the progress view under the applicable design rules.
 
-- [ ] Check official integration methods for each agent.
-- [ ] Demonstrate end-to-end interoperability between at least two distinct agent implementations.
-- [ ] Separate authentication, authorization from the person represented, and model output.
-- [ ] Add offline delivery, retries, cost budgets, stopping, and human takeover.
+## Real collaboration trial
 
-## Phase three candidate: trials in real scenarios
+- [ ] Complete two rounds without manual forwarding of intermediate messages; Wright performs formal approval personally.
+- [ ] Compare with manual forwarding: count forwarding, explanations, waiting time, corrections, and incorrect actions.
+- [ ] Gather willingness to reuse from both people and decide whether to expand.
 
-- [ ] Authorize calendar reads and writes separately; recheck availability before execution.
-- [ ] Verify partial success, recovery from failures, and duplicate-execution prevention.
-- [ ] Run a small trial and record completion rates, human interventions, time, cost, and unauthorized or incorrect commitments.
-- [ ] Decide whether to expand the scheduling trial to everyday arrangements, delegated tasks, and request clarification.
+Renting and scheduling remain everyday-life directions. Calendar integration, A2A, a single service, self-hosting, and deployment are not selected implementations.
 
-## Guidance for future development discussions
-
-Read the [handoff](HANDOFF.md), [project home](../../README.en.md), [product requirements](PRODUCT.md), [architecture draft](ARCHITECTURE.md), and [related projects](RELATED_PROJECTS.md).
-
-Continue exploring needs, existing solutions, and product differences. Present concrete options, tradeoffs, and a recommendation one topic at a time. Scheduling, A2A, a single service, and the technology stack remain candidate proposals. Once implementation is authorized, use the selected scenario and its applicable acceptance criteria, and record actual commands and unfinished work.
+Read the [handoff](HANDOFF.md), [product requirements](PRODUCT.md), and [worked example](WRIGHT_COLLABORATION.md), then consult earlier architecture and research as needed. Implementation needs a defined scope, actual commands, and evidence from validation.

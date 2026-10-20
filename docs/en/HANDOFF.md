@@ -2,12 +2,14 @@
 
 [简体中文](../HANDOFF.md) | [English](HANDOFF.md) · [Project home](../../README.en.md)
 
-Original exploration record: September 9, 2026. Bilingual update: September 10, 2026.
+Original exploration record: September 9, 2026. Latest update: October 20, 2026.
 
 ## Latest progress: takes precedence over earlier suggestions
 
+- 2026-10-20: The selected first scenario is cross-platform application development with Wright: Mac/new-feature handoffs to Windows, multiple clarification rounds, change feedback, and PR review. The selected product approach is handoffs inside existing agents, AB inboxes and a progress view, and GitHub task references. See the [worked example](WRIGHT_COLLABORATION.md). Action permissions, integrations, and technology remain undecided; no runnable implementation exists.
+
 - The initiator requested open source publication. The repository is public under the MIT License. Published material consists of product and design documentation; there is no runnable service.
-- The selected product direction is **automatic context organization with a Scenario Card**. The agent prepares relevant roles, goals, preferences, and information for the current situation, in a form the person can inspect and adjust. See [Product requirements v0.2](PRODUCT.md).
+- The selected product direction is **automatic context organization with a Scenario Card**. The agent prepares relevant roles, goals, preferences, and information for the current situation, in a form the person can inspect and adjust. See [Product requirements v0.3](PRODUCT.md).
 - Adding agent contacts creates ongoing interpersonal connections. Roles and situations shape how the agent represents its person; a contact relationship does not grant access to the entire personal profile.
 - Renting is the current discussion example, covering contract understanding, actionable proposals for payment arrangements, deposits, and renewal follow-up. It is not a selected first MVP.
 - Private evaluation context must be distinguished from information disclosed to the counterpart. Storage location, interface, confirmation timing, automatic commitments, and payment permissions remain undecided.
@@ -31,7 +33,8 @@ The scope includes both work and everyday life. It must not be narrowed to inter
 | Review related GitHub projects | Six projects screened initially |
 | Automatic context organization with a Scenario Card | Selected product direction |
 | Authorization, necessary disclosure, and outcome confirmation | Proposed design principles; detailed experience remains open |
-| Scheduling as the first minimum viable product (MVP) | Suggested, not selected |
+| First scenario and entry point | Cross-platform development with Wright; existing agents, AB inboxes/progress view, GitHub references |
+| Scheduling | Earlier candidate, not the current first scenario |
 | A2A and a self-hostable single service | Technical candidates, not selected or verified |
 | Build independently, integrate a project, or contribute upstream | Undecided |
 | Public repository and license | Open source publication requested; MIT adopted |
@@ -79,7 +82,7 @@ Communication protocols and personal agent collaboration are not empty fields. D
 - [jizw0704-source/agent-bridge](https://github.com/jizw0704-source/agent-bridge): public, main branch, MIT License.
 - Maintainer's existing local checkout: `/Users/bertil/Documents/agent-bridge`. Other contributors should use their own checkout path.
 - Initial documentation commit: `6a12a19`, pushed and checked at the time. Consult Git history for subsequent changes.
-- Includes a README, product requirements, architecture draft, related-project research, roadmap, handoff, and AGENTS.md. English editions are now available for the README and all five documents.
+- Includes a README, product requirements, architecture draft, related-project research, roadmap, handoff, and AGENTS.md. English editions are now available for the README and all six documents, including the worked example.
 - No application code, running service, dependency lockfiles, or real calendar/agent integrations.
 - Documentation whitespace and local links have been checked. There is no application formatter, linter, type checker, test suite, or build.
 
@@ -104,6 +107,6 @@ Present concrete proposals and discuss one issue at a time; do not ask for answe
 
 ## 8. Reusable continuation prompt
 
-> Continue exploring Agent Bridge at https://github.com/jizw0704-source/agent-bridge. Read AGENTS.md and docs/en/HANDOFF.md first, then the other documents as needed. The core idea is for different people's personal agents to communicate on their behalf across work and everyday life. We selected automatic context organization with a Scenario Card. Renting is our current discussion example, not a selected first release. Continue one topic at a time, presenting concrete options, tradeoffs, and a recommendation before asking for a choice. Clarify real needs and the product experience before technical implementation. Scheduling, A2A, and a single service remain candidates. There is no runnable service yet.
+> Continue exploring Agent Bridge at https://github.com/jizw0704-source/agent-bridge. Read AGENTS.md and docs/en/HANDOFF.md first, then the other documents as needed. The core idea is for different people's personal agents to communicate on their behalf across work and everyday life. We selected automatic context organization with a Scenario Card. Our first scenario is cross-platform development with Wright, using existing agents, AB inboxes and a progress view, and GitHub task references. Renting remains an everyday-life example. Continue one topic at a time, presenting concrete options, tradeoffs, and a recommendation before asking for a choice. Clarify real needs and the product experience before technical implementation. Scheduling, A2A, and a single service remain candidates. There is no runnable service yet.
 
 If a future conversation cannot access the repository, this document can be attached on its own to provide context.

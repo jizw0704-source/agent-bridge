@@ -4,6 +4,8 @@
 
 Design baseline: September 9, 2026. English edition: September 10, 2026. These are early proposals, not an implemented or selected architecture. Product exploration takes priority.
 
+October 20, 2026 update: the first scenario and entry point are selected in the [worked example](WRIGHT_COLLABORATION.md). The single-service, protocol, and state-machine proposals below remain early candidates. Development collaboration tracks task, approval, merge, and release states separately.
+
 ## Components
 
 Person A → local authorization rules and Agent A adapter ↔ Bridge coordination service ↔ Agent B adapter and local authorization rules ← Person B.

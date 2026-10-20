@@ -20,13 +20,15 @@ We have selected **automatic context organization with a Scenario Card** as the 
 
 One person may be a tenant, a traveler, a hotel guest, or a colleague in different situations. An ongoing agent contact could support multiple interactions over time. Adding a contact does not grant access to the person's entire profile.
 
-Rental arrangements are the current discussion example: understanding contract terms, negotiating payment dates, and following up on renewal decisions. The first validation scenario has not been selected.
+The selected first scenario is cross-platform development with Wright: handoffs within existing agents, AB inboxes and a progress view, and GitHub task references. Renting remains an everyday-life scenario.
 
 Agent2Agent (A2A) is an early protocol candidate. We will choose the technical approach after clarifying user needs and the product experience. Application-level agreements must be distinguished from protocol fields; no A2A compatibility has been implemented or verified.
 
 Related projects already exist, particularly EnvoyMesh and Tacit. We do not claim that this idea is unique. We need to test whether AB makes integration easier, reduces the effort of coordination, and respects the permissions people grant.
 
 ## Documentation
+
+- [Worked collaboration example with Wright and mechanism diagram](docs/en/WRIGHT_COLLABORATION.md)
 
 - [Product requirements and candidate validation scenarios](docs/en/PRODUCT.md)
 - [Architecture and communication draft](docs/en/ARCHITECTURE.md)
@@ -38,7 +40,7 @@ Related projects already exist, particularly EnvoyMesh and Tacit. We do not clai
 
 Completed: concept documentation, initial requirements, an architecture draft, and a preliminary review of related projects.
 
-Still to do: a runnable prototype, identity verification across users, real agent integrations, calendar integration, permission tests, and user trials. Protocol and technology choices remain proposals; no dependencies have been selected.
+Still to do: a runnable prototype, identity verification across users, real agent and GitHub integrations, permission tests, and user trials. Calendar integration belongs to a later candidate scenario. Protocol and technology choices remain proposals; no dependencies have been selected.
 
 This repository contains no real conversations, calendars, personal credentials, or third-party source code.
 
