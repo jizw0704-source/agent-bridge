@@ -2,9 +2,69 @@
 
 [简体中文](../WINDOWS_ONBOARDING.md) | [English](WINDOWS_ONBOARDING.md)
 
-Updated October 20, 2026. Scope: fictional `demo-export` handoffs and two-round replies. AB invokes your locally authenticated Codex CLI in a separate background conversation, without automatically inheriting your current desktop chat. Actual Windows operation remains to be verified on your machine.
+Updated October 21, 2026. Scope: fictional `demo-export` handoffs and two-round replies. AB invokes your locally authenticated Codex CLI in a separate background conversation, without automatically inheriting your current desktop chat. Actual Windows operation remains to be verified on your machine.
 
 Optional: install the [Agent Bridge skill](SKILL_USAGE.md) so local Codex can follow this workflow. The skill does not include the runtime or establish pairing by itself.
+
+## Instructions to give Wright’s Codex
+
+> Fetch AB from https://github.com/jizw0704-source/agent-bridge and use your local Skill Installer to install `skills/agent-bridge` from the same repository. Inspect existing code, skills, and bindings before changing anything; preserve work and credentials. Read AGENTS.md, this guide, docs/en/SKILL_USAGE.md, and the skill SKILL.md. Prepare Windows: Node.js 22+, the person’s own Codex login, the actual codex.exe, source syntax checks, and a private path-only binding. Follow local permissions and company policy for missing tools. Record the commit and use the same revision for code and skill. If the installer or Python is absent, copy the skill from the downloaded source. Report readiness and wait for Bertil’s new private invite.json and current Mac identity. Do not join, confirm identities, send messages, or edit real projects during preparation.
+
+## 0. Get code and install the skill from GitHub
+
+No code archive from Bertil is needed. Inspect any existing checkout first. Otherwise clone into a new, nonexistent directory:
+
+```powershell
+git clone https://github.com/jizw0704-source/agent-bridge.git "$env:USERPROFILE\Downloads\agent-bridge"
+Set-Location "$env:USERPROFILE\Downloads\agent-bridge"
+$AbApp = (Get-Location).Path
+$AbRevision = (git rev-parse HEAD).Trim()
+```
+
+Do not reset an existing directory. Without Git, use Code → Download ZIP in the repository, enter the actual folder containing package.json, and record its version. Copy the skill from that source to keep versions aligned.
+
+**Prefer the local Skill Installer when available.** Ask Codex to read its installed skill-installer/SKILL.md and locate the script. Execute this only after checking the script, Python 3, and an absent destination:
+
+```powershell
+$AbCodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
+$AbSkillHome = Join-Path $AbCodexHome 'skills'
+$AbSkillTarget = Join-Path $AbSkillHome 'agent-bridge'
+$AbInstaller = Join-Path $AbSkillHome '.system\skill-installer\scripts\install-skill-from-github.py'
+# Check the installer, Python version, and existing target before running.
+python "$AbInstaller" --repo jizw0704-source/agent-bridge --path skills/agent-bridge --ref "$AbRevision" --dest "$AbSkillHome"
+```
+
+`python` means a verified Python 3 entry point; use `py -3` if that is the available entry point. Do not assume Python exists. The installer refuses an existing destination; compare it rather than deleting or overwriting.
+
+**Without the installer or Python**, copy directly from the GitHub checkout; installing Python is unnecessary:
+
+```powershell
+New-Item -ItemType Directory -Force $AbSkillHome | Out-Null
+if (Test-Path -LiteralPath $AbSkillTarget) {
+  Write-Host 'Existing agent-bridge skill: inspect and compare first.'
+} else {
+  Copy-Item -LiteralPath (Join-Path $AbApp 'skills\agent-bridge') -Destination $AbSkillTarget -Recurse
+}
+Test-Path -LiteralPath (Join-Path $AbSkillTarget 'SKILL.md')
+```
+
+Expected structure: `skills\agent-bridge\SKILL.md`. Try `$agent-bridge Check my onboarding readiness` on the next turn. Reopen Codex if discovery fails, or explicitly read the installed SKILL.md. Installation does not start a connector or establish pairing.
+
+**Create a private path-only binding.** Verify `$AbApp` first. Read and inspect any existing binding rather than overwriting:
+
+```powershell
+$AbPeer = Join-Path $env:LOCALAPPDATA 'AgentBridge\wright-peer'
+$AbBinding = Join-Path $env:LOCALAPPDATA 'AgentBridge\skill-binding.json'
+New-Item -ItemType Directory -Force (Split-Path $AbBinding) | Out-Null
+if (Test-Path -LiteralPath $AbBinding) {
+  Write-Host 'Existing binding: read and inspect first.'
+} else {
+  @{ app_dir = $AbApp; peer_dir = $AbPeer } | ConvertTo-Json |
+    Set-Content -LiteralPath $AbBinding -Encoding utf8
+}
+```
+
+After prerequisite checks below, run `node (Join-Path $AbSkillTarget 'scripts\ab-status.mjs') --offline`. Missing peer configuration before joining is expected. Report the source commit, skill path, Node/Codex versions, actual exe verification, binding, and port readiness to Bertil, without credentials or bulk logs.
 
 ## What to receive
 

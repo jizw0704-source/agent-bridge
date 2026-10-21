@@ -23,19 +23,13 @@ node ~/.codex/skills/agent-bridge/scripts/ab-status.mjs
 
 For a custom `CODEX_HOME`, use its skills directory. Codex normally detects new skills automatically; restart Codex if it does not appear. You can also explicitly ask the current chat to read the installed SKILL.md.
 
-## Wright's Windows
+## Wright’s Windows
 
-Keep the existing AB application archive and [Windows onboarding guide](WINDOWS_ONBOARDING.md). The skill does not bundle Node, Codex or the AB runtime. Extract the `agent-bridge` folder from `agent-bridge-skill-20261020.zip` into the skills directory. Inspect any existing same-name skill rather than overwriting it:
+Install directly from the [GitHub skill directory](https://github.com/jizw0704-source/agent-bridge/tree/main/skills/agent-bridge); a separate skill ZIP is no longer needed.
 
-```powershell
-$AbSkillHome = if ($env:CODEX_HOME) { Join-Path $env:CODEX_HOME 'skills' } else { Join-Path $env:USERPROFILE '.codex\skills' }
-New-Item -ItemType Directory -Force $AbSkillHome | Out-Null
-Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\agent-bridge-skill-20261020.zip" -DestinationPath $AbSkillHome
-```
+Give the opening instructions in [Windows onboarding](WINDOWS_ONBOARDING.md) to Wright’s Codex. It fetches the source and records its commit, installs `skills/agent-bridge` from the same revision using the local Skill Installer, or copies from the source if the installer/Python is unavailable. It then checks prerequisites, creates a path-only binding, reports readiness, and waits for a new invitation and mutual identity verification.
 
-Then ask Codex: `$agent-bridge Check my setup and connect to AB using the application folder I extracted.` It checks prerequisites, creates a private path-only binding, and follows invitation and mutual-confirmation procedures. No server password or Mac participant token is needed.
-
-Complete real bidirectional acceptance using the Windows guide. The skill reduces missed steps; it does not replace native Windows testing. An AB source archive containing `skills/agent-bridge` can also supply the folder directly.
+Prepare the skill and AB runtime separately. Preserve existing skills, bindings, and peer state. The onboarding guide contains PowerShell commands, paths, and fallback handling. Existing skill ZIPs remain usable offline after checking their version.
 
 ## Validation and boundaries
 

@@ -2,9 +2,69 @@
 
 [简体中文](WINDOWS_ONBOARDING.md) | [English](en/WINDOWS_ONBOARDING.md)
 
-更新：2026-10-20。范围：虚构 `demo-export` 任务的信息交接和两轮回复。AB 连接器接收消息后，调用你本机已登录的 Codex CLI；它使用独立后台会话，不自动继承当前桌面对话。真实 Windows 运行尚待你这台电脑验收。
+更新：2026-10-21。范围：虚构 `demo-export` 任务的信息交接和两轮回复。AB 连接器接收消息后，调用你本机已登录的 Codex CLI；它使用独立后台会话，不自动继承当前桌面对话。真实 Windows 运行尚待你这台电脑验收。
 
 可选：先安装 [Agent Bridge Skill](SKILL_USAGE.md)，让本机 Codex 按此流程协助操作。技能不包含 AB 运行程序，也不代表已经配对。
+
+## 直接交给 Wright 的 Codex 执行
+
+> 请从 GitHub 仓库 https://github.com/jizw0704-source/agent-bridge 获取 AB 代码，并使用你本机的 Skill 安装器，从同一仓库安装 `skills/agent-bridge`。先检查已有目录、技能和绑定，不覆盖现有工作或凭证。读取仓库 AGENTS.md、本说明、docs/SKILL_USAGE.md 和技能 SKILL.md，完成 Windows 接入准备：Node.js 22+、Codex 本人登录状态、真实 codex.exe 路径、源码语法检查，以及仅含本机路径的私人绑定。缺少工具按本机权限与公司规则处理，不绕过策略。将所用提交编号记录下来，技能与运行源码使用同一版本。没有 Skill 安装器或 Python 时，从取得的源码复制技能目录。准备完成后给我一份结果摘要，等待 Bertil 提供新的私有 invite.json 和当前 Mac 身份代码；不要自行加入、确认身份、发消息或修改真实项目。
+
+## 0. 从 GitHub 获取代码与安装 Skill
+
+无需 Bertil 发送代码包。先检查本机已有 AB 目录；没有时，选择一个不存在的新目录克隆：
+
+```powershell
+git clone https://github.com/jizw0704-source/agent-bridge.git "$env:USERPROFILE\Downloads\agent-bridge"
+Set-Location "$env:USERPROFILE\Downloads\agent-bridge"
+$AbApp = (Get-Location).Path
+$AbRevision = (git rev-parse HEAD).Trim()
+```
+
+示例目录已存在时不要直接重跑或重置。没有 Git 时从仓库的 Code → Download ZIP 获取源码并进入包含 package.json 的实际目录；记录下载版本，安装 Skill 时优先从这份源码复制，保证一致。
+
+**有 Skill 安装器时优先从 GitHub 安装。** 让 Codex 读取其已安装的 skill-installer/SKILL.md 并定位脚本。下列命令仅在脚本存在、Python 3 可用且目标技能不存在时执行：
+
+```powershell
+$AbCodexHome = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
+$AbSkillHome = Join-Path $AbCodexHome 'skills'
+$AbSkillTarget = Join-Path $AbSkillHome 'agent-bridge'
+$AbInstaller = Join-Path $AbSkillHome '.system\skill-installer\scripts\install-skill-from-github.py'
+# 先检查 Test-Path $AbInstaller、Python 版本及 $AbSkillTarget 是否已存在。
+python "$AbInstaller" --repo jizw0704-source/agent-bridge --path skills/agent-bridge --ref "$AbRevision" --dest "$AbSkillHome"
+```
+
+`python` 仅为已确认可用的 Python 3 入口示例；若只有 `py -3`，使用该入口。不要为了此命令假定 Python 已安装。安装器遇到同名目录会停止；先比较内容，不删除重装或直接覆盖。
+
+**没有安装器／Python 时：** 从刚取得的 GitHub 源码复制即可，无需另装 Python：
+
+```powershell
+New-Item -ItemType Directory -Force $AbSkillHome | Out-Null
+if (Test-Path -LiteralPath $AbSkillTarget) {
+  Write-Host '已有 agent-bridge Skill，请先比较内容。'
+} else {
+  Copy-Item -LiteralPath (Join-Path $AbApp 'skills\agent-bridge') -Destination $AbSkillTarget -Recurse
+}
+Test-Path -LiteralPath (Join-Path $AbSkillTarget 'SKILL.md')
+```
+
+正确结构是 `skills\agent-bridge\SKILL.md`。下一轮对话尝试 `$agent-bridge 检查我的接入准备情况`；未被发现时重开 Codex，或让当前 Codex 直接读取已安装 SKILL.md。Skill 安装不等于运行程序或配对完成。
+
+**建立仅含路径的绑定。** 在源码目录确认 `$AbApp` 后执行；已有绑定先读取、核对，不覆盖：
+
+```powershell
+$AbPeer = Join-Path $env:LOCALAPPDATA 'AgentBridge\wright-peer'
+$AbBinding = Join-Path $env:LOCALAPPDATA 'AgentBridge\skill-binding.json'
+New-Item -ItemType Directory -Force (Split-Path $AbBinding) | Out-Null
+if (Test-Path -LiteralPath $AbBinding) {
+  Write-Host '已有绑定，请先读取并核对。'
+} else {
+  @{ app_dir = $AbApp; peer_dir = $AbPeer } | ConvertTo-Json |
+    Set-Content -LiteralPath $AbBinding -Encoding utf8
+}
+```
+
+完成下方环境检查后，运行 `node (Join-Path $AbSkillTarget 'scripts\ab-status.mjs') --offline`。尚未加入时没有 peer 配置是正常的。接入前请向 Bertil 报告源码提交、技能路径、Node／Codex 版本、真实 exe 核查结果、绑定和端口准备情况；不附凭证或整包日志。
 
 ## 你需要收到什么
 

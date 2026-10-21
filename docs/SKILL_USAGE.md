@@ -29,19 +29,11 @@ node ~/.codex/skills/agent-bridge/scripts/ab-status.mjs
 
 ## Wright 的 Windows
 
-1. 保留已有 AB 代码包和[Windows 接入说明](WINDOWS_ONBOARDING.md)。Skill 本身不包含 Node、Codex 或 AB 运行程序。
-2. 收到 `agent-bridge-skill-20261020.zip` 后，解压其中的 `agent-bridge` 文件夹到 Codex 的 skills 目录；遇到已有同名技能，先比较，勿直接覆盖。普通 PowerShell 示例：
+推荐直接从 [GitHub 技能目录](https://github.com/jizw0704-source/agent-bridge/tree/main/skills/agent-bridge)安装，不再需要单独接收技能 ZIP。
 
-```powershell
-$AbSkillHome = if ($env:CODEX_HOME) { Join-Path $env:CODEX_HOME 'skills' } else { Join-Path $env:USERPROFILE '.codex\skills' }
-New-Item -ItemType Directory -Force $AbSkillHome | Out-Null
-Expand-Archive -LiteralPath "$env:USERPROFILE\Downloads\agent-bridge-skill-20261020.zip" -DestinationPath $AbSkillHome
-```
+将 [Windows 接入说明](WINDOWS_ONBOARDING.md)开头的执行指令交给 Wright 的 Codex。它先获取源码并记录提交，再通过本机 Skill 安装器从同一 GitHub 提交安装 `skills/agent-bridge`；没有安装器／Python 时，从源码复制技能作为替代。接着检查环境、创建仅含路径的绑定并报告准备结果，等待新邀请和双方身份核对。
 
-3. 在 Codex 中说：`$agent-bridge 帮我检查并接入 AB，代码目录是我解压的 AB 文件夹。` 技能会检查本机环境、建立仅含路径的私人绑定，再按邀请与双方确认流程接入。不要把服务器密码或 Mac 的身份令牌交给它。
-4. 安装后，按 [Windows 接入说明](WINDOWS_ONBOARDING.md)完成真实双向验收。技能可以减少漏步骤，但不能代替 Windows 本机运行测试。
-
-也可从包含技能源码的新 AB 包直接复制 `skills/agent-bridge` 文件夹到上述目录。
+Skill 和 AB 运行程序需要分别准备；不得覆盖已有同名技能、绑定或 peer 状态。完整 PowerShell 命令、安装路径及缺失环境处理见接入说明。已有技能 ZIP 仍可离线安装，但必须核对版本。
 
 ## 验证与边界
 
