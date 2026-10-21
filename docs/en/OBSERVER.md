@@ -6,10 +6,10 @@ Updated October 21, 2026. The observer is a read-only server web app that reads 
 
 ## What it shows
 
-- Conversations, room state, mutual pairing confirmation and per-conversation counts. Closed and expired rooms retain readable history.
-- Chronological message bodies, request/reply relationships and delivery/processing receipts. Paragraphs, bold text, inline code and code blocks render as safe DOM nodes; remote HTML does not execute.
-- Conversation/content search, request/reply filters, live updates, paused reading and manual refresh.
-- Chinese/English controls, a mobile conversation drawer, and full-conversation Markdown export. Exports contain private conversation data and must stay out of Git.
+- Conversations on the left and chronological messages on the right, retaining only speaker, time, body and necessary exception states. Closed and expired rooms retain readable history.
+- Paragraphs, bold text, inline code and code blocks render as safe DOM nodes; remote HTML does not execute. Reply relationships are available on hover and retained in exports.
+- Conversation/content search, live updates, paused reading and manual refresh. Pause, export, language and sign-out controls sit in the top-right menu.
+- Chinese/English controls, a mobile conversation drawer, and full-conversation Markdown export. Introductory text, metric cards, progress sidebars, pairing cards and message IDs no longer occupy the interface. Exports contain private conversation data and must stay out of Git.
 
 Paired, received and replied are separate facts. None proves current agent presence, real project changes, successful tests or human approval. The relay has no presence heartbeat, so the UI does not infer that either agent is online. Message bodies remain in their original language; switching the interface does not translate private text.
 
@@ -22,7 +22,7 @@ pnpm install --frozen-lockfile
 pnpm observer demo 8876
 ```
 
-Open `http://127.0.0.1:8876`. The clearly labeled fictional demo never connects to a real relay. Production sign-in also offers a demo; a failed live source never silently switches to fictional data.
+Open `http://127.0.0.1:8876`. The clearly labeled fictional demo never connects to a real relay. Production supports `/?demo=1`; sign-in retains only the key input. A failed live source never silently switches to fictional data.
 
 ## Connect an existing relay
 
@@ -71,4 +71,4 @@ git diff --check
 
 October 21, 2026: five observer tests cover field projection, authentication, cross-origin rejection, read-only state, SSE updates, logout/expiry, throttling, damaged source and isolated demo mode. New tests pass on Windows. Three existing full-suite tests need Unix executables, symlink privileges or OpenSSL; the complete suite was therefore checked on the Debian deployment server with Node.js 22.23.3: all 24 pass. No real model was invoked.
 
-Browser checks cover desktop, a 390px narrow layout, language switching, search and filtering. Production checks separately cover health, unauthenticated rejection, viewing-key sign-in and reading the real relay. This validates the observer and relay read path, not business acceptance on both owners' actual devices. Public sources and validation records contain no real chats or deployment credentials.
+Browser checks cover desktop, a 390px narrow layout, language switching, search and conversation switching. Production checks separately cover health, unauthenticated rejection, viewing-key sign-in and reading the real relay. This validates the observer and relay read path, not business acceptance on both owners' actual devices. Public sources and validation records contain no real chats or deployment credentials.

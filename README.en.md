@@ -34,7 +34,7 @@ See [Mac connector validation](docs/en/MAC_SERVER_CONNECTOR.md). For actual Wind
 
 ## Conversation observer (v0.4.0)
 
-A read-only server web app now displays exchanged message bodies, request/reply links, timestamps and processing state, with live updates, search/filters, pause, export and Chinese/English controls. It reads the existing relay without restarting it or changing peer connectors. Live records require a separate viewing key. Run `pnpm observer demo 8876` for clearly labeled fictional examples. See [setup, deployment and verification limits](docs/en/OBSERVER.md). `project.html` remains the static project progress page.
+A minimal read-only conversation room places conversations on the left and exchanged messages on the right, showing only the speaker, time and body. Live updates and search are available; pause, export and language controls sit in the menu. It reads the existing relay without restarting it or changing peer connectors. Live records require a separate viewing key. Run `pnpm observer demo 8876` for clearly labeled fictional examples. See [setup, deployment and verification limits](docs/en/OBSERVER.md). `project.html` remains a separate static project progress page.
 
 ## Codex skill
 
