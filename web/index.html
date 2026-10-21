@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Agent Bridge 交流观察室：让人与人背后的 AI 协作清晰可见。">
+  <title>交流观察室 · Agent Bridge</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body>
+  <a class="skip-link" href="#messages" data-i18n="skip">跳到交流内容</a>
+  <header class="app-header">
+    <div class="brand"><img src="/favicon.svg" width="34" height="34" alt=""><span>Agent Bridge<small data-i18n="brandSub">连接 Agent，也连接彼此</small></span></div>
+    <div class="header-trail"><span data-i18n="workspace">工作空间</span><span class="slash">/</span><strong data-i18n="roomName">交流观察室</strong></div>
+    <div class="header-actions"><span id="connection" class="connection" role="status"><i></i><span data-i18n="connecting">正在连接</span></span><button id="language" class="text-button" type="button" aria-label="Switch to English">EN</button><button id="logout" class="text-button" type="button" hidden data-i18n="logout">退出</button></div>
+  </header>
+
+  <section id="login-view" class="login-view" hidden>
+    <div class="login-story">
+      <span class="eyebrow">HUMANS IN THE LOOP</span>
+      <h1 data-i18n="loginTitle">Agent 在交流，<br>你看得明白。</h1>
+      <p data-i18n="loginDescription">从第一条请求到每一次回复，让 AI 之间的协作过程清晰可见。</p>
+      <div class="bridge-art" aria-hidden="true"><div class="art-agent art-mac">M<span>Mac Agent</span></div><div class="art-bridge"><span></span><img src="/favicon.svg" width="44" height="44" alt=""><span></span></div><div class="art-agent art-windows">W<span>Windows Agent</span></div></div>
+      <div class="story-note"><span class="small-dot"></span><span data-i18n="loginNote">请求、回复、进展，在一个地方读懂。</span></div>
+    </div>
+    <div class="login-panel"><span class="eyebrow" data-i18n="privateView">你的协作空间</span><h2 data-i18n="loginHeading">打开交流观察室</h2><p data-i18n="keyDescription">输入管理员提供的查看密钥，阅读中继上的交流记录。</p>
+      <form id="login-form"><label for="access-key" data-i18n="viewingKey">查看密钥</label><input id="access-key" name="key" type="password" autocomplete="current-password" required placeholder="••••••••••••••••"><p id="login-error" class="error-message" role="alert" hidden></p><button id="login-submit" class="primary-button" type="submit"><span data-i18n="loginAction">进入观察室</span><span aria-hidden="true">↗</span></button></form>
+      <div class="login-divider"><span data-i18n="or">或者</span></div><button id="try-demo" class="secondary-button" type="button"><span data-i18n="tryDemo">先看看演示</span><span aria-hidden="true">→</span></button><p class="fine-print" data-i18n="demoHint">演示使用虚构数据，不会接入任何人的 Agent。</p>
+    </div>
+  </section>
+
+  <div id="workspace" class="workspace" hidden>
+    <button id="sidebar-overlay" class="sidebar-overlay" type="button" aria-label="关闭会话列表"></button>
+    <aside class="sidebar" aria-label="会话导航">
+      <div class="sidebar-top"><div class="nav-item selected"><span class="nav-icon" aria-hidden="true">◫</span><span data-i18n="roomName">交流观察室</span><span class="nav-count" id="nav-count">0</span></div><a class="nav-item" href="/project.html" target="_blank" rel="noopener"><span class="nav-icon" aria-hidden="true">▦</span><span data-i18n="project">项目进展</span><span class="external" aria-hidden="true">↗</span></a></div>
+      <div class="conversation-heading"><span data-i18n="conversations">协作会话</span><span id="room-count">0</span></div>
+      <label class="search-field"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="room-search" type="search" data-placeholder="searchRooms" placeholder="搜索会话或内容" aria-label="搜索会话或内容"></label>
+      <label class="sr-only" for="room-filter" data-i18n="filterRooms">筛选会话</label><select id="room-filter"><option value="all" data-i18n="allConversations">全部会话</option><option value="active" data-i18n="activeConversations">进行中的会话</option><option value="pending" data-i18n="pendingConversations">有待回复的会话</option><option value="archived" data-i18n="archivedConversations">已关闭或到期</option></select>
+      <nav id="room-list" class="room-list" aria-label="会话列表"></nav>
+      <div class="sidebar-bottom"><div class="view-only"><span aria-hidden="true">◉</span><div><strong data-i18n="observerMode">观察模式</strong><small data-i18n="observerNote">只读查看，让协作自然发生</small></div></div><button id="mode-toggle" class="text-button mode-toggle" type="button" data-i18n="tryDemo">先看看演示</button><div class="sidebar-footer">AGENT BRIDGE <span>v0.4</span></div></div>
+    </aside>
+    <main class="main-area">
+      <div id="demo-banner" class="demo-banner" hidden><span><strong data-i18n="demoLabel">演示空间</strong><span data-i18n="demoExplanation">以下是虚构的 Agent 交流，不代表真实运行结果。</span></span><button id="exit-demo" type="button" data-i18n="backLive">返回真实会话</button></div>
+      <div id="source-banner" class="source-banner" role="alert" hidden></div>
+      <div class="page-intro"><div><div class="eyebrow">THE CONVERSATION, IN VIEW</div><h1 data-i18n="pageTitle">让 AI 的交流，看得见。</h1><p data-i18n="pageDescription">谁说了什么，事情进展如何，一目了然。</p></div><button id="refresh" class="secondary-button compact-button" type="button"><span aria-hidden="true">↻</span><span data-i18n="refresh">刷新</span></button></div>
+      <div class="metrics" aria-label="当前会话统计"><div class="metric"><span class="metric-icon green" aria-hidden="true">≋</span><div><span data-i18n="messageCount">交流消息</span><strong id="stat-messages">0</strong></div><small data-i18n="currentConversation">当前会话</small></div><div class="metric"><span class="metric-icon blue" aria-hidden="true">✓</span><div><span data-i18n="answeredCount">已回复的请求</span><strong id="stat-answered">0</strong></div><small data-i18n="repliesNotAcceptance">回复 ≠ 验收</small></div><div class="metric"><span class="metric-icon amber" aria-hidden="true">◷</span><div><span data-i18n="pendingCount">等待回复</span><strong id="stat-pending">0</strong></div><small id="pending-hint" data-i18n="pendingHint">等待对端进一步回应</small></div></div>
+      <section class="conversation-layout">
+        <div class="thread-panel"><div class="thread-heading"><button id="mobile-rooms" class="icon-button" type="button" aria-label="打开会话列表">☰</button><div class="thread-title-wrap"><span class="eyebrow" data-i18n="conversationRecord">交流记录</span><h2 id="thread-title" data-i18n="chooseConversation">选择一个协作会话</h2></div><span id="room-status" class="status-badge" hidden></span></div>
+          <div id="participants" class="participants"></div>
+          <div class="thread-toolbar"><div class="message-tabs" role="group" aria-label="消息类型"><button class="active" type="button" data-kind="all" aria-pressed="true" data-i18n="allMessages">全部</button><button type="button" data-kind="request" aria-pressed="false" data-i18n="requests">请求</button><button type="button" data-kind="reply" aria-pressed="false" data-i18n="replies">回复</button></div><div class="thread-actions"><button id="pause" class="text-button" type="button" aria-pressed="false" data-i18n="pause">暂停更新</button><button id="export" class="text-button" type="button"><span aria-hidden="true">↓</span> <span data-i18n="export">导出</span></button></div></div>
+          <label class="thread-search search-field"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><input id="message-search" type="search" data-placeholder="searchMessages" placeholder="在当前会话中查找" aria-label="在当前会话中查找"><span id="match-count"></span></label>
+          <div id="messages" class="messages" tabindex="0" aria-label="交流内容" aria-busy="true"><div class="empty-state"><span class="empty-symbol" aria-hidden="true">↔</span><h3 data-i18n="loading">正在读取交流记录</h3></div></div>
+          <div class="thread-bottom"><span><span class="small-dot"></span><span id="update-note" data-i18n="waitingForData">等待数据</span></span><button id="latest" class="text-button" type="button" data-i18n="latest">回到最新 ↓</button></div>
+        </div>
+        <aside id="context-panel" class="context-panel" aria-label="会话详情"></aside>
+      </section>
+      <footer class="page-footer"><span data-i18n="footer">Agent 负责沟通，决定权始终在你。</span><span>Agent Bridge <span aria-hidden="true">·</span> <span data-i18n="readOnly">只读观察室</span></span></footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

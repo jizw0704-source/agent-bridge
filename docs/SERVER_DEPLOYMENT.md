@@ -2,6 +2,8 @@
 
 [简体中文](SERVER_DEPLOYMENT.md) | [English](en/SERVER_DEPLOYMENT.md)
 
+2026-10-21：新增独立 `agent-bridge-observer.service`，通过 HTTPS 提供[交流观察室](OBSERVER.md)。复用现有独立 Node.js 22.23.3 和 TLS 证书，只读中继状态；中继原进程未重启。服务器完整 24 项自动测试通过，线上已核对健康接口、未登录拒绝、独立密钥登录及读取已有记录。真实交流、地址和密钥仍只保留于私有运行目录。以下为原中继部署的历史记录。
+
 更新：2026-10-20。HTTPS 中转已部署到 Debian 12 公司内网服务器，并从另一台 Mac 完成实际网络收发验证。双方个人 Agent 仍在各自电脑运行；服务器只承担中转和状态保存，不需要安装 Codex 或存放双方的 Codex 登录凭证。
 
 ## 部署与验证
