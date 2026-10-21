@@ -44,6 +44,8 @@ Mac 后台接入与验证见 [Mac 连接器说明](docs/MAC_SERVER_CONNECTOR.md)
 
 ## 文档入口
 
+- [本地项目进展页](project.html)：功能、流程、验证与下一步；[维护说明](docs/PROJECT_PAGE.md)。
+
 - [与 Wright 协作的完整样例与机理图](docs/WRIGHT_COLLABORATION.md)
 
 - [新对话交接：讨论总结与深入探索问题](docs/HANDOFF.md)

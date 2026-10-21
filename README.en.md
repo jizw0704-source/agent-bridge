@@ -46,6 +46,8 @@ Run `pnpm install --frozen-lockfile`, then `pnpm demo`. Requires Node.js 22+, pn
 
 ## Documentation
 
+- [Local project progress page](project.html): capabilities, flow, evidence, and next steps; [maintenance guide](docs/en/PROJECT_PAGE.md).
+
 - [Worked collaboration example with Wright and mechanism diagram](docs/en/WRIGHT_COLLABORATION.md)
 
 - [Product requirements and candidate validation scenarios](docs/en/PRODUCT.md)
