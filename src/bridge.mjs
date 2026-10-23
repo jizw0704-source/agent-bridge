@@ -21,7 +21,7 @@ export async function runCodex({ cwd, threadId, message, outputDir, pilotRole, r
   const args = ['-a', 'never', '-s', 'read-only', 'exec'];
   if (review) {
     args.push('--strict-config', '-c', 'web_search="disabled"', '-c', 'mcp_servers={}');
-    for (const feature of ['shell_tool', 'unified_exec', 'apply_patch_freeform', 'apps', 'connectors', 'computer_use', 'browser_use', 'collab', 'codex_hooks', 'view_image'])
+    for (const feature of ['shell_tool', 'unified_exec', 'apply_patch_freeform', 'apps', 'computer_use', 'browser_use', 'multi_agent', 'hooks', 'view_image'])
       args.push('-c', `features.${feature}=false`);
   }
   if (threadId) args.push('resume', threadId);

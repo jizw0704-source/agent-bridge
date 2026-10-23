@@ -60,7 +60,7 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
         if (!body || Array.isArray(body) || typeof body !== 'object') fail(400, 'Object body required');
       }
       const result = await serialize(async () => {
-        if (req.method === 'GET' && url.pathname === '/health') return { status: 'ok', mode: 'read-only-demo' };
+        if (req.method === 'GET' && url.pathname === '/health') return { status: 'ok', mode: 'bounded-collaboration', capabilities: ['persistent-rooms', 'translator-pr-review'] };
         const next = structuredClone(state);
         if (req.method === 'POST' && url.pathname === '/rooms') {
           authAdmin(req);
@@ -141,7 +141,16 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
           if (task.status !== 'archived') { task.status = 'archived'; task.archived_at = now(); await save(next); }
           return { task };
         }
-        if (req.method === 'GET' && action === 'inbox') return { messages: room.messages.filter(m => m.to === role && m.status !== 'received' && m.status !== 'replied') };
+        if (req.method === 'GET' && action === 'inbox') {
+          const messages = []; let size = 0;
+          for (const message of room.messages) {
+            if (message.to !== role || ['received', 'replied'].includes(message.status)) continue;
+            const length = JSON.stringify(message).length;
+            if (messages.length && size + length > 2000000) break;
+            messages.push(message); size += length;
+          }
+          return { messages };
+        }
         if (req.method === 'POST' && action === 'messages') {
           if (!validId(body.id) || !['request', 'reply'].includes(body.kind) || typeof body.body !== 'string' || !body.body.trim() || body.body.length > (body.kind === 'request' && room.task_id === reviewTask ? reviewLimit : 8000)) fail(400, 'Invalid bounded message');
           if (body.task_id !== room.task_id) fail(403, 'Message task is outside room authorization');
@@ -169,6 +178,7 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
             if (message.reply_to) fail(400, 'Requests do not set reply_to');
             if (room.messages.filter(m => m.from === role && m.kind === 'request' && (room.mode !== 'contact' || m.collaboration_id === message.collaboration_id)).length >= (room.lifetime === 'persistent' ? 1000 : 10)) fail(429, 'Room request capacity reached; rotate room');
           }
+          if (JSON.stringify(room.messages).length + JSON.stringify(message).length > 16000000) fail(429, 'Room storage capacity reached; rotate room');
           room.messages.push({ ...message, status: 'queued', created_at: now() }); await save(next); return { id: message.id, duplicate: false };
         }
         if (req.method === 'POST' && action === 'ack') {
@@ -205,7 +215,7 @@ export async function relayRequest(config, action, body, { timeoutMs = 10000 } =
         headers: { Authorization: `Bearer ${config.token || ''}`, 'Content-Type': 'application/json' }
       }, res => {
         res.setEncoding('utf8'); res.on('error', reject); res.on('aborted', () => reject(new Error('Relay response aborted')));
-        let raw = ''; res.on('data', chunk => { raw += chunk; if (raw.length > 1000000) req.destroy(new Error('Oversized response')); });
+        let raw = ''; res.on('data', chunk => { raw += chunk; if (raw.length > 4000000) req.destroy(new Error('Oversized response')); });
         res.on('end', () => {
           try {
             const data = JSON.parse(raw);

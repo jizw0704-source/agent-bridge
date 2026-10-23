@@ -77,3 +77,5 @@ Remove identifying details, contact information, actual contract text, account i
 - [Structured handoffs v1: format, validation, and boundaries](docs/en/STRUCTURED_HANDOFF.md)
 
 - [Persistent contacts and separate tasks: local implementation and migration](docs/en/CONTACTS_TASKS.md)
+
+- [Persistent rooms and read-only translator PR review](docs/en/LONG_TERM_REVIEW.md): these additions are locally verified; deployment and a real Wright review handoff remain pending.
