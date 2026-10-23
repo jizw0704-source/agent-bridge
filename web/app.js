@@ -13,7 +13,7 @@ const words = {
     failed: '处理失败', processing: '处理中', request: '请求', reply: '回复', replyTo: '回复 {name}：{body}',
     loginFailed: '密钥不正确', rateLimited: '请稍等一分钟再试', networkError: '暂时无法连接服务器', sourceError: '无法读取消息，正在重连', reconnecting: '连接中断，正在重连', sessionExpired: '登录已到期，请重新输入密钥',
     signedOut: '已退出', refreshed: '已刷新', exported: '已导出', loginBusy: '正在进入…', resume: '恢复更新',
-    realExport: '中继记录', demoExport: '演示数据', exportTime: '导出时间', messageId: '消息编号', relatedRequest: '关联请求', state: '状态',
+    realExport: '中继记录', demoExport: '演示数据', exportTime: '导出时间', messageId: '消息编号', relatedRequest: '关联请求', state: '状态', collaboration: '协作任务',
     closeRooms: '关闭会话列表', openRooms: '会话列表', searchRooms: '搜索会话', searchMessages: '搜索消息', closeSearch: '关闭搜索', refresh: '刷新', more: '更多', messagesLabel: '交流消息'
   },
   en: {
@@ -25,7 +25,7 @@ const words = {
     failed: 'Failed', processing: 'Processing', request: 'Request', reply: 'Reply', replyTo: 'Reply to {name}: {body}',
     loginFailed: 'Incorrect viewing key', rateLimited: 'Try again in a minute', networkError: 'Cannot reach the server', sourceError: 'Cannot read messages. Reconnecting.', reconnecting: 'Disconnected. Reconnecting.', sessionExpired: 'Session expired. Enter your viewing key again.',
     signedOut: 'Signed out', refreshed: 'Refreshed', exported: 'Exported', loginBusy: 'Opening…', resume: 'Resume updates',
-    realExport: 'Relay records', demoExport: 'Demo data', exportTime: 'Exported at', messageId: 'Message ID', relatedRequest: 'Related request', state: 'Status',
+    realExport: 'Relay records', demoExport: 'Demo data', exportTime: 'Exported at', messageId: 'Message ID', relatedRequest: 'Related request', state: 'Status', collaboration: 'Task',
     closeRooms: 'Close conversations', openRooms: 'Conversations', searchRooms: 'Search conversations', searchMessages: 'Search messages', closeSearch: 'Close search', refresh: 'Refresh', more: 'More', messagesLabel: 'Conversation messages'
   }
 };
@@ -252,7 +252,7 @@ document.addEventListener('keydown', event => { if (event.key === 'Escape') { cl
 $('export').addEventListener('click', () => {
   closeMenu(); const room = currentRoom(); if (!room) return;
   const lines = [`# ${room.title || t('noTitle')}`, '', `> ${t(isDemo() ? 'demoExport' : 'realExport')}`, `${t('exportTime')}: ${new Date().toISOString()}`, ''];
-  for (const message of room.messages) lines.push(`## ${t(message.from)} → ${t(message.to)} · ${t(message.kind)}`, '', `${message.created_at ? new Date(message.created_at).toISOString() : '—'}`, `${t('messageId')}: ${message.id}`, `${t('relatedRequest')}: ${message.reply_to || '—'}`, `${t('state')}: ${message.status}`, '', message.body, '', '---', '');
+  for (const message of room.messages) lines.push(`## ${t(message.from)} → ${t(message.to)} · ${t(message.kind)}`, '', `${message.created_at ? new Date(message.created_at).toISOString() : '—'}`, `${t('messageId')}: ${message.id}`, `${t('relatedRequest')}: ${message.reply_to || '—'}`, `${t('state')}: ${message.status}`, `${t('collaboration')}: ${message.collaboration_id || '—'}`, '', message.body, '', '---', '');
   const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' })); link.download = `agent-bridge-${room.id.replace(/[^a-zA-Z0-9_-]/g, '_')}.md`; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000); notify('exported');
 });
 window.addEventListener('pagehide', () => { stream?.close(); stream = null; });
