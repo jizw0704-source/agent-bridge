@@ -13,5 +13,6 @@
 - Skill source: `skills/agent-bridge/`; `pnpm check` includes its helper and `pnpm test` covers status handling. Structure: `uv run --with pyyaml python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" skills/agent-bridge` (local authoring tool, not runtime dependency).
 
 - Project progress UI: `project.html`; keep both languages and observation timestamps aligned. Runtime snapshots must exclude credentials and private identities. Maintenance: docs/PROJECT_PAGE.md.
+- Live conversation observer: `web/`, `src/observer*.mjs`; setup/deployment: docs/OBSERVER.md and docs/en/OBSERVER.md. Preview: `pnpm observer demo 8876`; focused tests: `node --test test/observer.test.mjs`; `pnpm check` also checks browser JS. No build step. Keep observer credentials and exported transcripts outside Git. The observer must remain read-only and must not restart or mutate the running relay.
 
 - Persistent contacts/tasks: `node src/contact-cli.mjs` prints usage; `node --test test/contacts.test.mjs` validates lifecycle and isolation. See docs/CONTACTS_TASKS.md. Keep legacy runtime/configurations unchanged unless migration is explicitly performed.

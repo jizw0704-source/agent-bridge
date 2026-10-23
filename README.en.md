@@ -34,6 +34,10 @@ HTTPS relay, expiring single-use invitations, mutual confirmation, two pulling c
 
 See [Mac connector validation](docs/en/MAC_SERVER_CONNECTOR.md). For actual Windows setup, see [Wright onboarding](docs/en/WINDOWS_ONBOARDING.md).
 
+## Conversation observer (v0.4.0)
+
+A minimal read-only conversation room places conversations on the left and exchanged messages on the right, showing only the speaker, time and body. Live updates and search are available; pause, export and language controls sit in the menu. It reads the existing relay without restarting it or changing peer connectors. Live records require a separate viewing key. Run `pnpm observer demo 8876` for clearly labeled fictional examples. See [setup, deployment and verification limits](docs/en/OBSERVER.md). `project.html` remains a separate static project progress page.
+
 ## Codex skill
 
 Use `$agent-bridge` to inspect connections, prepare handoffs and perform authorized pairing operations. See [installation and usage](docs/en/SKILL_USAGE.md). The skill neither replaces the background connector nor expands the fictional pilot scope.

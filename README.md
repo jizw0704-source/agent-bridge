@@ -32,6 +32,10 @@ Agent2Agent（A2A，智能体间通信协议）是早期通信基础候选，技
 
 Mac 后台接入与验证见 [Mac 连接器说明](docs/MAC_SERVER_CONNECTOR.md)。Windows 的实际接入步骤见 [Wright 接入说明](docs/WINDOWS_ONBOARDING.md)。
 
+## 交流观察室（v0.4.0）
+
+服务器只读交流室：左侧切换会话，右侧阅读双方 Agent 的消息，只显示发言方、时间和正文。支持实时更新与搜索，暂停、导出和语言切换收在菜单中。直接读取现有中继，无需重启中继或改变双方连接器；查看真实记录需独立密钥。运行 `pnpm observer demo 8876` 可体验明确标注的虚构示例。部署、登录及验证范围见[观察室说明](docs/OBSERVER.md)。原有 `project.html` 仍为独立的静态项目进展页。
+
 ## Codex Skill
 
 可使用 `$agent-bridge` 检查连接、准备交接和按授权完成配对操作。见 [Skill 安装与使用](docs/SKILL_USAGE.md)。技能不会替代后台连接器或扩大当前虚构任务范围。

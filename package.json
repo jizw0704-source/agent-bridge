@@ -13,6 +13,7 @@
     "inbox": "node src/inbox.mjs",
     "relay": "node src/relay-cli.mjs",
     "peer": "node src/peer-cli.mjs",
+    "observer": "node src/observer-cli.mjs",
     "contact": "node src/contact-cli.mjs"
   }
 }

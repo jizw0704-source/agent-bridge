@@ -2,6 +2,8 @@
 
 [简体中文](../SERVER_DEPLOYMENT.md) | [English](SERVER_DEPLOYMENT.md)
 
+October 21, 2026: the separate `agent-bridge-observer.service` now serves the HTTPS [conversation observer](OBSERVER.md). It reuses the dedicated Node.js 22.23.3 runtime and TLS certificate, reads relay state only, and did not restart the relay. All 24 server tests pass. Production checks cover health, unauthenticated rejection, separate viewing-key sign-in and existing-record reads. Real conversations, addresses and keys remain private runtime data. The following is the historical relay deployment record.
+
 Updated October 20, 2026. The HTTPS relay is deployed on a Debian 12 company LAN server and has passed real network messaging checks from a separate Mac. Personal agents still run on their respective computers. The server handles transport and persistence; it needs neither Codex nor either person's Codex credentials.
 
 ## Deployment and verification

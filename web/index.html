@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>交流室 · Agent Bridge</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body data-view="login">
+  <a class="skip-link" href="#messages" data-i18n="skip">跳到消息</a>
+  <header class="app-header">
+    <button id="mobile-rooms" class="icon-button workspace-action" type="button" aria-label="会话列表" aria-expanded="false" aria-controls="sidebar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="brand"><img src="/favicon.svg" width="28" height="28" alt=""><span data-i18n="roomName">交流室</span></div>
+    <div class="header-actions">
+      <span id="demo-label" class="demo-pill" hidden data-i18n="demo">演示</span>
+      <span id="connection" class="connection workspace-action" role="status" aria-label="正在连接" title="正在连接"></span>
+      <button id="toggle-search" class="icon-button workspace-action" type="button" aria-label="搜索消息" title="搜索消息" aria-expanded="false" aria-controls="message-search-panel">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>
+      </button>
+      <button id="refresh" class="icon-button workspace-action" type="button" aria-label="刷新" title="刷新">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10a8 8 0 1 0-2 8M20 4v6h-6"/></svg>
+      </button>
+      <details id="more-actions" class="more-actions">
+        <summary class="icon-button" aria-label="更多" title="更多"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg></summary>
+        <div class="menu">
+          <button id="pause" class="workspace-action" type="button" aria-pressed="false" data-i18n="pause">暂停更新</button>
+          <button id="export" class="workspace-action" type="button" data-i18n="export">导出会话</button>
+          <button id="language" type="button">English</button>
+          <button id="logout" type="button" hidden data-i18n="logout">退出</button>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  <main id="login-view" class="login-view" hidden>
+    <form id="login-form" class="login-form">
+      <h1 data-i18n="roomName">交流室</h1>
+      <label for="access-key" data-i18n="viewingKey">查看密钥</label>
+      <input id="access-key" name="key" type="password" autocomplete="current-password" required>
+      <p id="login-error" class="error-message" role="alert" hidden></p>
+      <button id="login-submit" class="primary-button" type="submit" data-i18n="enter">进入</button>
+    </form>
+  </main>
+
+  <div id="workspace" class="workspace" hidden>
+    <button id="sidebar-overlay" class="sidebar-overlay" type="button" aria-label="关闭会话列表"></button>
+    <aside id="sidebar" class="sidebar" aria-label="会话列表">
+      <div class="sidebar-heading"><h2 data-i18n="conversations">会话</h2></div>
+      <label class="room-search search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="room-search" type="search" data-placeholder="searchRooms" placeholder="搜索会话" aria-label="搜索会话"></label>
+      <nav id="room-list" class="room-list" aria-label="会话列表"></nav>
+    </aside>
+    <main class="thread-panel">
+      <header class="thread-heading"><h1 id="thread-title" data-i18n="chooseConversation">选择会话</h1><span id="room-status" class="status-badge" hidden></span></header>
+      <div id="source-banner" class="source-banner" role="alert" hidden></div>
+      <div id="message-search-panel" class="message-search-panel" hidden>
+        <label class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><input id="message-search" type="search" data-placeholder="searchMessages" placeholder="搜索消息" aria-label="搜索消息"></label>
+        <button id="close-search" class="icon-button" type="button" aria-label="关闭搜索" title="关闭搜索"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button>
+      </div>
+      <div id="messages" class="messages" tabindex="0" aria-label="交流消息" aria-busy="true"></div>
+      <button id="latest" class="latest-button" type="button" hidden data-i18n="latest">最新消息 ↓</button>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>
