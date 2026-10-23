@@ -2,6 +2,8 @@
 
 [简体中文](HANDOFF.md) | [English](en/HANDOFF.md)
 
+开发交接本地实现更新：见 [开发任务说明](DEVELOPMENT_HANDOFF.md)和 [Wright 本机授权说明](WRIGHT_DEVELOPMENT_ONBOARDING.md)。源码已发布，尚未部署或通过真实 Windows 开发执行验收；现有 demo-export 权限不变。
+
 2026-10-23 最新：真实 Mac／Wright Windows 双任务通信验收已完成，含 A 归档拒发、B 归档后双向通信及 Mac 会话隔离续接。见 [最终验收](WRIGHT_ACCEPTANCE.md)。下方待验收描述为历史状态；仍仅限虚构任务。
 
 2026-10-20 Skill 更新：新增 `skills/agent-bridge`，已安装到 Mac；可检查实时状态、引导 Mac／Windows 配对及授权交接。提供无凭证技能包，参见 [Skill 使用说明](SKILL_USAGE.md)。真实 Windows 仍未验收，Skill 本身不扩大通信权限。

@@ -5,6 +5,7 @@ import { mkdir, readFile, open, unlink, readdir, lstat } from 'node:fs/promises'
 import { join } from 'node:path';
 import { atomicJSON } from './bridge.mjs';
 import { reviewTask, reviewLimit, validateReview } from './pr-review.mjs';
+import { developmentScope } from './development.mjs';
 
 const hash = value => createHash('sha256').update(String(value)).digest('hex');
 const token = () => randomBytes(32).toString('base64url');
@@ -117,7 +118,7 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
         if (room.mode === 'contact' && action === 'tasks') {
           if (req.method === 'GET') return { tasks: Object.values(room.tasks) };
           if (req.method === 'POST') {
-            if (!validId(body.id) || typeof body.title !== 'string' || !body.title.trim() || body.title.length > 160 || body.scope !== 'demo-export') fail(400, 'Task needs id, title and explicit demo-export scope');
+            if (!validId(body.id) || typeof body.title !== 'string' || !body.title.trim() || body.title.length > 160 || !['demo-export', developmentScope].includes(body.scope)) fail(400, 'Task needs id, title and explicit supported scope');
             if (['__proto__', 'constructor', 'prototype'].includes(body.id)) fail(400, 'Reserved task ID');
             const old = Object.hasOwn(room.tasks, body.id) ? room.tasks[body.id] : undefined;
             if (old) {
@@ -142,9 +143,11 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
           return { task };
         }
         if (req.method === 'GET' && action === 'inbox') {
+          const scope = url.searchParams.get('scope');
+          if (scope && !['demo-export', developmentScope, reviewTask].includes(scope)) fail(400, 'Unknown inbox scope');
           const messages = []; let size = 0;
           for (const message of room.messages) {
-            if (message.to !== role || ['received', 'replied', 'failed', 'processing'].includes(message.status)) continue;
+            if ((scope && message.task_id !== scope) || message.to !== role || ['received', 'replied', 'failed', 'processing'].includes(message.status)) continue;
             const length = JSON.stringify(message).length;
             if (messages.length && size + length > 2000000) break;
             messages.push(message); size += length;
@@ -153,12 +156,12 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
         }
         if (req.method === 'POST' && action === 'messages') {
           if (!validId(body.id) || !['request', 'reply'].includes(body.kind) || typeof body.body !== 'string' || !body.body.trim() || body.body.length > (body.kind === 'request' && room.task_id === reviewTask ? reviewLimit : 8000)) fail(400, 'Invalid bounded message');
-          if (body.task_id !== room.task_id) fail(403, 'Message task is outside room authorization');
+          if (room.mode !== 'contact' && body.task_id !== room.task_id) fail(403, 'Message task is outside room authorization');
           if (body.kind === 'request' && room.task_id === reviewTask) {
             try { validateReview(body.body); } catch { fail(400, 'Invalid authorized PR snapshot'); }
           }
           if (body.kind === 'request' && body.id.length > 76) fail(400, 'Request ID too long');
-          const message = { id: body.id, task_id: room.task_id, from: role, to: peer, kind: body.kind, body: body.body, reply_to: body.reply_to || null, ...(room.mode === 'contact' ? { collaboration_id: body.collaboration_id } : {}) };
+          const message = { id: body.id, task_id: body.task_id, from: role, to: peer, kind: body.kind, body: body.body, reply_to: body.reply_to || null, ...(room.mode === 'contact' ? { collaboration_id: body.collaboration_id } : {}) };
           const existing = room.messages.find(m => m.id === body.id);
           if (existing) {
             if (Object.keys(message).some(k => message[k] !== existing[k])) fail(409, 'Message ID conflict');

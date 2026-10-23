@@ -1,0 +1,26 @@
+{
+  "contacts": [
+    {
+      "room_id": "REPLACE_WITH_CURRENT_CONTACT_ROOM_ID",
+      "identity": "REPLACE_WITH_INDEPENDENTLY_VERIFIED_PEER_IDENTITY",
+      "repositories": ["OWNER/ab-development-sandbox"],
+      "automatic": false
+    }
+  ],
+  "repositories": {
+    "OWNER/ab-development-sandbox": {
+      "path": "REPLACE_WITH_CANONICAL_LOCAL_CLONE_ABSOLUTE_PATH",
+      "origin": "https://github.com/OWNER/ab-development-sandbox.git",
+      "base_branch": "main",
+      "files": ["platform-label.mjs"],
+      "edit": true,
+      "commit": true,
+      "push": false,
+      "draft_pr": false,
+      "checks": {
+        "syntax": { "type": "node-syntax", "file": "platform-label.mjs" },
+        "windows-label": { "type": "contains", "file": "platform-label.mjs", "text": "Windows" }
+      }
+    }
+  }
+}

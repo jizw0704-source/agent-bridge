@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 import { atomicJSON, runCodex } from './bridge.mjs';
+import { developmentScope } from './development.mjs';
 import { reviewTask, validateReview } from './pr-review.mjs';
 import { relayRequest, safeEndpoint } from './relay.mjs';
 
@@ -66,9 +67,10 @@ export class PeerWorker {
       }
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
 
-    const inbox = await relayRequest(this.config, 'inbox');
+    const inbox = await relayRequest(this.config, this.config.mode === 'contact' ? 'inbox?scope=demo-export' : 'inbox');
     for (const message of inbox.messages) {
       if (await this.stoppingNow()) break;
+      if (message.task_id === developmentScope && this.config.mode === 'contact') continue; // Dedicated opt-in development receiver only.
       if (message.task_id !== (this.config.task_id || 'demo-export')) throw new Error('Inbound task outside local authorization');
       if (message.kind === 'request' && this.config.task_id === reviewTask) validateReview(message.body);
       const old = this.state.inbound[message.id];

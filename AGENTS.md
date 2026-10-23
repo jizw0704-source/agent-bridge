@@ -16,3 +16,5 @@
 - Live conversation observer: `web/`, `src/observer*.mjs`; setup/deployment: docs/OBSERVER.md and docs/en/OBSERVER.md. Preview: `pnpm observer demo 8876`; focused tests: `node --test test/observer.test.mjs`; `pnpm check` also checks browser JS. No build step. Keep observer credentials and exported transcripts outside Git. The observer must remain read-only and must not restart or mutate the running relay.
 
 - Persistent contacts/tasks: `node src/contact-cli.mjs` prints usage; `node --test test/contacts.test.mjs` validates lifecycle and isolation. See docs/CONTACTS_TASKS.md. Keep legacy runtime/configurations unchanged unless migration is explicitly performed.
+
+- Development handoffs: docs/DEVELOPMENT_HANDOFF.md and docs/en/DEVELOPMENT_HANDOFF.md. Run `node --test test/development.test.mjs`; CLI: `node src/development-cli.mjs` (usage). Opt-in local actual model verification: `node scripts/verify-development.mjs --real-codex`. development-v1 source is published but requires separate deployment; never expand demo-export or configure another owner's local grants. Bounded checks only; no arbitrary project script execution.

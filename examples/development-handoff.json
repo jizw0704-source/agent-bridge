@@ -1,0 +1,13 @@
+{
+  "type": "handoff",
+  "id": "windows-label-001",
+  "repository": "OWNER/ab-development-sandbox",
+  "base": "0000000000000000000000000000000000000000",
+  "goal": "Add win32 -> Windows to platformLabel; preserve darwin -> Mac and other -> Other. Only change the listed file.",
+  "files": ["platform-label.mjs"],
+  "acceptance": ["Windows label is added", "Existing Mac and Other labels remain", "Registered syntax and text checks pass; functional validation remains for owner review"],
+  "references": ["Pinned repository file: platform-label.mjs"],
+  "checks": ["syntax", "windows-label"],
+  "push": false,
+  "draft_pr": false
+}

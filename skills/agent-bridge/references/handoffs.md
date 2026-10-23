@@ -4,14 +4,14 @@
 
 Verify a live receiver, valid room and mutual pairing with the status helper. Resolve recipient identity from the current paired relationship; do not infer a verified human from the `mac`/`windows` role alone. Existing explicit instructions to send a defined message count as authorization. If only asked to prepare an invitation or handoff, draft it without transmitting.
 
-Current transport permits only a fictional `demo-export` discussion. Preserve the distinction between observed behavior, proposed behavior and tests not yet run. A useful handoff contains:
+The installed demo transport permits only a fictional `demo-export` discussion; real development uses the separately enabled development-v1 path in [development](development.md). Preserve the distinction between observed behavior, proposed behavior and tests not yet run. A useful handoff contains:
 
 - The fictional task and desired outcome.
 - Relevant observations, separately marked as simulated or verified.
 - The unresolved question and a proposed solution, if known.
 - The requested response and what requires the owner's decision.
 
-Do not include real repository contents, credentials or unrelated personal information. If the user asks for a real issue/PR handoff, explain the current scope and prepare the proposed text or implementation work instead of sending it as a fictional task.
+Do not include real repository contents, credentials or unrelated personal information. If the user asks for a real issue/PR handoff, route to development.md, verify actual deployment and local grants, and otherwise prepare a draft without sending it as fictional content.
 
 ## Persistent contact tasks
 

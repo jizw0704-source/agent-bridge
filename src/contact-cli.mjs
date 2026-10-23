@@ -57,7 +57,7 @@ try {
     else if (['send', 'send-structured'].includes(command)) {
       if (!args[0] || !args[1]) throw new Error('send requires task ID and message file');
       const tasks = await relayRequest(config, 'tasks');
-      if (!tasks.tasks.some(t => t.id === args[0] && t.status === 'active')) throw new Error('Choose an active task');
+      if (!tasks.tasks.some(t => t.id === args[0] && t.status === 'active' && t.scope === 'demo-export')) throw new Error('Choose an active task');
       const raw = (await readFile(resolve(args[1]), 'utf8')).replace(/^\uFEFF/, '');
       const body = command === 'send-structured' ? encodeHandoff(JSON.parse(raw)) : raw;
       if (!body.trim() || body.length > 8000) throw new Error('Message must contain 1..8000 characters');

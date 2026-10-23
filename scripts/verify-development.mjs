@@ -1,0 +1,24 @@
+// Opt-in local real-Codex smoke test. Never contacts a peer or pushes a repository.
+import { mkdtemp, mkdir, realpath, readFile, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join, resolve } from 'node:path';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+import { DevelopmentEngine } from '../src/development.mjs';
+if (!process.argv.includes('--real-codex')) throw new Error('Explicit --real-codex required (one model call and isolated local Git commit)');
+const root = await realpath(await mkdtemp(join(tmpdir(), 'ab-development-real-'))), repo = join(root, 'repo'), runtime = join(root, 'private');
+await mkdir(repo); await mkdir(runtime);
+const exec = promisify(execFile), git = async (...args) => (await exec('git', args, { cwd: repo })).stdout.trim();
+await git('init'); await git('config', 'user.name', 'AB local verification'); await git('config', 'user.email', 'ab@localhost');
+await git('remote', 'add', 'origin', 'https://github.com/example/ab-test.git');
+await writeFile(join(repo, 'platform-label.mjs'), await readFile(resolve('examples/development-sandbox/platform-label.mjs')));
+await git('add', '.'); await git('commit', '-m', 'isolated test base');
+const contact = { room_id: 'local-synthetic-only', identity: 'local-synthetic-only' };
+await writeFile(join(runtime, 'policy.json'), JSON.stringify({ contacts: [{ ...contact, repositories: ['example/ab-test'] }], repositories: { 'example/ab-test': { path: repo, origin: 'https://github.com/example/ab-test.git', files: ['platform-label.mjs'], edit: true, commit: true, checks: { syntax: { type: 'node-syntax', file: 'platform-label.mjs' }, windows: { type: 'contains', file: 'platform-label.mjs', text: 'Windows' } } } } }));
+const engine = new DevelopmentEngine({ root: runtime });
+const task = { type: 'handoff', id: 'windows-label-001', repository: 'example/ab-test', base: await git('rev-parse', 'HEAD'), goal: 'Add win32 -> Windows to platformLabel; preserve darwin -> Mac and other -> Other. Small reversible change. No clarification necessary.', files: ['platform-label.mjs'], checks: ['syntax', 'windows'], acceptance: ['Windows label added, existing labels preserved'], references: [] };
+await engine.submit(contact, task);
+const result = await engine.execute({ ...contact, id: task.id });
+await writeFile(join(root, 'result.json'), JSON.stringify({ root, test: 'local-only real Codex with program-controlled Git edits', ...result }, null, 2));
+console.log(JSON.stringify({ root, ...result }, null, 2));
+if (result.status !== 'awaiting-review') process.exitCode = 1;
