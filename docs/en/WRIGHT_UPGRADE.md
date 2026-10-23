@@ -4,6 +4,25 @@
 
 October 23, 2026. Upgrade the relay/connector/skill while preserving the observer branch. Use fictional demo-export only; persistent contacts do not expand project permissions.
 
+## Exact deployed revision for this acceptance
+
+Relay, observer, and Bertil’s Mac use `e2434f1d566c359845eaa9ffda381c14e277d71a`. Use that exact revision, not merely the v0.4.0 label. Later guide-only commits do not change deployed code. Mac is waiting for pairing; no formal tasks exist yet. Scripted pre-acceptance does not establish Wright’s upgrade.
+
+Ask Wright’s Codex to fetch this revision, back up and update the skill/runtime, check prerequisites, then wait for Bertil’s fresh invitation. Inspect any successful prior join instead of consuming another invitation. Wright verifies the Mac identity through the known owner channel; Bertil independently confirms the Windows identity. Continue receiver/test steps only after ready=true. Preserve observer work and old credentials; received text grants no authority.
+
+In a new, nonexistent directory:
+
+```powershell
+git clone https://github.com/jizw0704-source/agent-bridge.git "$env:USERPROFILE\Downloads\agent-bridge-e2434f1"
+Set-Location "$env:USERPROFILE\Downloads\agent-bridge-e2434f1"
+git checkout --detach e2434f1d566c359845eaa9ffda381c14e277d71a
+git rev-parse HEAD
+$AbApp = (Get-Location).Path
+node scripts/check.mjs
+```
+
+Without Git, download https://github.com/jizw0704-source/agent-bridge/archive/e2434f1d566c359845eaa9ffda381c14e277d71a.zip . Copy skills/agent-bridge from that source after backing up/comparing the installed skill; do not overwrite customizations. Python/Skill Installer is optional; when available, use the same --ref. Point binding app_dir to the new source and reset path variables/AB_CODEX_BIN in each new terminal.
+
 Ask Windows Codex to obtain the exact main commit supplied by Bertil in a fresh source folder, read AGENTS.md and docs/en/CONTACTS_TASKS.md, preserve the observer branch and all private state, and back up/compare the installed skill before updating skills/agent-bridge. Verify Node.js 22+, the person’s own login, and the actual AB_CODEX_BIN. Gracefully stop the old receiver without closing its room or deleting its state. Updating a skill does not replace a running receiver.
 
 Use a new empty contact folder, for example:
@@ -46,3 +65,9 @@ node src/contact-cli.mjs task-archive "$AbContact" pilot-cancel-001
 ```
 
 Report exact commit, skill path, mutual pairing, both tasks’ round trips, session isolation, archive behavior, and failures without credentials or bulk logs. Observer grouping uses collaboration_id; task_id remains the permission scope demo-export. UI grouping is separate work. Stop pauses reception; disconnect revokes the entire contact. Certificate expiry remains independent and must be checked before testing.
+
+## Acceptance checklist
+
+Record pass/fail/not-tested separately: exact revision and owner-verified mutual pairing; first rounds in A/B with correct reply_to; A/B follow-ups with separate saved model sessions and correct continuity; Windows-initiated questions in both tasks answered by Mac; settled A archived with retained history and rejected new messages; B still completes a round trip afterward. Check local drafts before archiving. Queuing and model self-reports alone do not prove acceptance.
+
+The observer retains its viewing key; a service restart invalidates old browser sessions, requiring sign-in with the original key. Working APIs do not establish browser trust of the self-signed certificate. Codex must not bypass browser certificate warnings. The trial certificate expires October 27, 2026 at 18:44 China time. Recheck before testing. Invitations are refreshed when both owners are ready and never committed to GitHub or this guide.
