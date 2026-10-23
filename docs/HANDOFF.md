@@ -2,6 +2,8 @@
 
 [简体中文](HANDOFF.md) | [English](en/HANDOFF.md)
 
+最新部署：服务器与 Mac 已部署 development-v1，测试仓库已准备，真实 Windows 开发任务待本机授权后投递。见 [部署记录](DEVELOPMENT_DEPLOYMENT.md)。下方未部署说明为此前发布节点。
+
 开发交接本地实现更新：见 [开发任务说明](DEVELOPMENT_HANDOFF.md)和 [Wright 本机授权说明](WRIGHT_DEVELOPMENT_ONBOARDING.md)。源码已发布，尚未部署或通过真实 Windows 开发执行验收；现有 demo-export 权限不变。
 
 2026-10-23 最新：真实 Mac／Wright Windows 双任务通信验收已完成，含 A 归档拒发、B 归档后双向通信及 Mac 会话隔离续接。见 [最终验收](WRIGHT_ACCEPTANCE.md)。下方待验收描述为历史状态；仍仅限虚构任务。

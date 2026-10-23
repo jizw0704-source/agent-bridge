@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
+Deployment update: the development release is live on the company relay and Mac. Test repository and first task are prepared; Wright local authorization is pending. See [deployment](docs/en/DEVELOPMENT_DEPLOYMENT.md).
+
 The published development handoff MVP implements separate development-v1 permission, receiver-local grants, bounded edits/checks, clarification/cancellation and reports. Not deployed. See [development handoff](docs/en/DEVELOPMENT_HANDOFF.md).
 
 Latest, October 23, 2026: actual Mac / Wright Windows passed persistent-contact, two-task bidirectional two-round, archive rejection, and continued B messaging acceptance, using fictional content only. See [final acceptance](docs/en/WRIGHT_ACCEPTANCE.md). Older deployment checkpoints below are historical.

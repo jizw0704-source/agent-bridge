@@ -2,6 +2,8 @@
 
 [简体中文](DEVELOPMENT_HANDOFF.md) | [English](en/DEVELOPMENT_HANDOFF.md)
 
+部署更新：服务器与 Mac 已部署并通过检查；Wright 本机开发执行仍待授权。见 [部署与首任务准备](DEVELOPMENT_DEPLOYMENT.md)。以下未部署描述为源码发布时的历史状态。
+
 2026-10-23：已完成本地实现与审核，源码发布，尚未部署；当前公司服务器和 Mac 常驻连接器仍运行旧通信版本。此前[真实 Mac／Windows 通信验收](WRIGHT_ACCEPTANCE.md)已通过；新开发权限的真实双端验收仍待 Wright 本机授权及双方测试仓库确认。
 
 ## 最小流程

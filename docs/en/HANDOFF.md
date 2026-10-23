@@ -2,6 +2,8 @@
 
 [简体中文](../HANDOFF.md) | [English](HANDOFF.md) · [Project home](../../README.en.md)
 
+Deployment update: development-v1 is installed on relay and Mac; a dedicated test repo is ready. Actual Windows execution awaits local grants before delivery. See [deployment](DEVELOPMENT_DEPLOYMENT.md). Undeployed statements below describe the earlier publication checkpoint.
+
 Local development handoff update: see [implementation](DEVELOPMENT_HANDOFF.md) and [Wright local authorization](WRIGHT_DEVELOPMENT_ONBOARDING.md). Source published; not deployed or accepted for Windows development execution; demo-export authority is unchanged.
 
 Latest, October 23, 2026: actual Mac / Wright Windows two-task communication acceptance passed, including archive rejection, continued B communication in both directions, and Mac session isolation/resumption. See [final acceptance](WRIGHT_ACCEPTANCE.md). Pending statements below are historical; scope remains fictional.

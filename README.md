@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
+部署更新：开发任务版本已部署到公司服务器与 Mac，测试仓库与首个小任务已准备，等待 Wright 本机授权。见 [部署记录](docs/DEVELOPMENT_DEPLOYMENT.md)。
+
 开发任务最小版源码已发布（尚未部署）：独立 development-v1 权限、本机授权、受限修改与检查、澄清／取消和结果回报。见 [开发交接](docs/DEVELOPMENT_HANDOFF.md)。
 
 2026-10-23 最新：真实 Mac／Wright Windows 已通过长期联系人、双任务双向两轮、A 归档拒发及 B 继续双向通信验收；仅限虚构通信。见 [最终验收](docs/WRIGHT_ACCEPTANCE.md)。下方旧部署状态为历史记录。

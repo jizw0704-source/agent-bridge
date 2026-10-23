@@ -2,6 +2,8 @@
 
 [简体中文](../DEVELOPMENT_HANDOFF.md) | [English](DEVELOPMENT_HANDOFF.md)
 
+Deployment update: relay and Mac are deployed and checked; Wright local execution still awaits authorization. See [deployment and first task](DEVELOPMENT_DEPLOYMENT.md). Undeployed text below is the historical source-publication checkpoint.
+
 October 23, 2026: implemented and reviewed locally; source published, not deployed. The company relay and installed Mac receiver still run the previous communication release. [Actual Mac/Windows communication acceptance](WRIGHT_ACCEPTANCE.md) passed. Real cross-computer development execution requires Wright's own local authorization and an agreed test repository.
 
 ## Flow and authority
