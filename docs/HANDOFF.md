@@ -2,6 +2,8 @@
 
 [简体中文](HANDOFF.md) | [English](en/HANDOFF.md)
 
+2026-10-23 最新：真实 Mac／Wright Windows 双任务通信验收已完成，含 A 归档拒发、B 归档后双向通信及 Mac 会话隔离续接。见 [最终验收](WRIGHT_ACCEPTANCE.md)。下方待验收描述为历史状态；仍仅限虚构任务。
+
 2026-10-20 Skill 更新：新增 `skills/agent-bridge`，已安装到 Mac；可检查实时状态、引导 Mac／Windows 配对及授权交接。提供无凭证技能包，参见 [Skill 使用说明](SKILL_USAGE.md)。真实 Windows 仍未验收，Skill 本身不扩大通信权限。
 
 2026-10-20 Mac 接入更新：已通过 LaunchAgent 经服务器完成两轮模拟 Wright 的真实 Codex 回复；正式 Mac 身份等待双方配对。参见 [Mac 接入](MAC_SERVER_CONNECTOR.md)和 [Windows 说明](WINDOWS_ONBOARDING.md)。邀请可刷新；真实 Windows 未验收。

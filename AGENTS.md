@@ -1,6 +1,6 @@
 # Working agreements
 
-- Read README.md and docs/ before implementation. A local, scripted-peer Codex communication demo exists; a LAN HTTPS peer pilot is implemented; actual Windows/Wright interoperability remains unverified.
+- Read README.md and docs/ before implementation. A local, scripted-peer Codex communication demo exists; a LAN HTTPS peer pilot is implemented; actual Mac/Wright Windows fictional two-task communication and archive isolation passed on 2026-10-23; see docs/WRIGHT_ACCEPTANCE.md. Real-project execution remains unverified.
 - Preserve user changes. Distinguish proposals, implemented features, and verified behavior.
 - Use pnpm if choosing JavaScript/TypeScript, or uv for Python. Inspect existing lockfiles before adding dependencies.
 - Keep private credentials, real conversations, calendars, and personal data out of Git.

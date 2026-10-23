@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
+Latest, October 23, 2026: actual Mac / Wright Windows passed persistent-contact, two-task bidirectional two-round, archive rejection, and continued B messaging acceptance, using fictional content only. See [final acceptance](docs/en/WRIGHT_ACCEPTANCE.md). Older deployment checkpoints below are historical.
+
 October 23, 2026: v0.4.0 persistent contacts and independent tasks deployed to relay and Mac; real Codex two-task pre-acceptance passed. Actual upgraded Wright Windows acceptance is pending. See [deployment](docs/en/CONTACTS_DEPLOYMENT.md) and [upgrade instructions](docs/en/WRIGHT_UPGRADE.md).
 
 Connect people's personal AI agents so they can communicate, negotiate, and coordinate within the permissions each person grants.

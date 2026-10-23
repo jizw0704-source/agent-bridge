@@ -2,6 +2,8 @@
 
 [简体中文](CONTACTS_TASKS.md) | [English](en/CONTACTS_TASKS.md)
 
+2026-10-23 最终更新：真实 Mac／Wright Windows 已完成双任务双向及归档隔离验收，见 [验收记录](WRIGHT_ACCEPTANCE.md)。以下早期状态为历史基线；Kaysen 尚未验收。
+
 2026-10-23 部署更新：已部署到公司服务器与 Mac，并通过双任务真实 Codex 预验收；真实 Wright 新版仍待配对。见 [部署与证据](CONTACTS_DEPLOYMENT.md)。以下“本地实现”记录为部署前基线。
 
 更新：2026-10-23。已实现本地服务、命令行和按任务分开的模型会话；使用自动测试完成验证。尚未部署到公司服务器，尚未验证 Wright／Kaysen 真实新式配对。旧房间与旧连接器继续按原规则工作，不自动迁移或延长。

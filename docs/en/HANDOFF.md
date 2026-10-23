@@ -2,6 +2,8 @@
 
 [简体中文](../HANDOFF.md) | [English](HANDOFF.md) · [Project home](../../README.en.md)
 
+Latest, October 23, 2026: actual Mac / Wright Windows two-task communication acceptance passed, including archive rejection, continued B communication in both directions, and Mac session isolation/resumption. See [final acceptance](WRIGHT_ACCEPTANCE.md). Pending statements below are historical; scope remains fictional.
+
 October 20, 2026 skill update: `skills/agent-bridge` is installed on the Mac, providing live status inspection and guided Mac/Windows pairing and authorized handoffs. A credential-free skill archive is available; see [usage](SKILL_USAGE.md). Native Windows remains unverified; the skill does not expand communication authority.
 
 October 20, 2026 Mac connector update: the LaunchAgent completed two real Codex replies to simulated Wright through the server. A separate real Mac identity is waiting for mutual pairing. See [Mac setup](MAC_SERVER_CONNECTOR.md) and [Windows onboarding](WINDOWS_ONBOARDING.md). Invitations can be refreshed; actual Windows operation remains unverified.

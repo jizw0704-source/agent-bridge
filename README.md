@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
+2026-10-23 最新：真实 Mac／Wright Windows 已通过长期联系人、双任务双向两轮、A 归档拒发及 B 继续双向通信验收；仅限虚构通信。见 [最终验收](docs/WRIGHT_ACCEPTANCE.md)。下方旧部署状态为历史记录。
+
 2026-10-23：v0.4.0 长期联系人与独立任务已部署服务器和 Mac；真实 Codex 双任务预验收通过，Wright 新版 Windows 验收待完成。见 [部署记录](docs/CONTACTS_DEPLOYMENT.md)与 [Wright 升级说明](docs/WRIGHT_UPGRADE.md)。
 
 让不同人的专属 AI Agent 在各自主人的授权范围内交流、协商并完成协作。
