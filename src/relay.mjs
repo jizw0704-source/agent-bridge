@@ -4,6 +4,7 @@ import { randomBytes, randomUUID, createHash, timingSafeEqual, X509Certificate }
 import { mkdir, readFile, open, unlink, readdir, lstat } from 'node:fs/promises';
 import { join } from 'node:path';
 import { atomicJSON } from './bridge.mjs';
+import { reviewTask, reviewLimit, validateReview } from './pr-review.mjs';
 
 const hash = value => createHash('sha256').update(String(value)).digest('hex');
 const token = () => randomBytes(32).toString('base64url');
@@ -54,7 +55,7 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
       let body = {};
       if (req.method === 'POST') {
         const chunks = []; let size = 0;
-        for await (const chunk of req) { size += chunk.length; if (size > 16000) fail(413, 'Payload too large'); chunks.push(chunk); }
+        for await (const chunk of req) { size += chunk.length; if (size > 4000000) fail(413, 'Payload too large'); chunks.push(chunk); }
         try { body = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}'); } catch { fail(400, 'Invalid JSON'); }
         if (!body || Array.isArray(body) || typeof body !== 'object') fail(400, 'Object body required');
       }
@@ -64,17 +65,22 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
         if (req.method === 'POST' && url.pathname === '/rooms') {
           authAdmin(req);
           if (Object.keys(next.rooms).length >= 100) fail(429, 'Room limit reached');
+          if (body.lifetime !== undefined && !['daily', 'persistent'].includes(body.lifetime)) fail(400, 'Invalid room lifetime');
+          if (body.task_id !== undefined && !['demo-export', reviewTask].includes(body.task_id)) fail(400, 'Invalid task scope');
+          if (body.mode !== undefined && body.mode !== 'contact') fail(400, 'Invalid relationship mode');
+          if (body.mode === 'contact' && body.task_id && body.task_id !== 'demo-export') fail(400, 'Contacts currently support fictional tasks only');
+          const persistent = body.mode === 'contact' || body.lifetime === 'persistent';
           const id = randomUUID(), secret = token(), invite = token();
-          next.rooms[id] = { id, task_id: 'demo-export', created_at: now(), expires_at: now() + 86400000, invite_digest: hash(invite), invite_expires: now() + 600000, revoked: false,
+          next.rooms[id] = { id, ...(body.mode === 'contact' ? { mode: 'contact', tasks: {} } : {}), task_id: body.task_id || 'demo-export', lifetime: persistent ? 'persistent' : 'daily', created_at: now(), expires_at: persistent ? null : now() + 86400000, invite_digest: hash(invite), invite_expires: now() + 600000, revoked: false,
             people: { mac: { digest: hash(secret), confirmed: false, identity: randomBytes(8).toString('hex') } }, messages: [] };
           await save(next);
-          return { room_id: id, token: secret, role: 'mac', invite, invite_expires_at: next.rooms[id].invite_expires };
+          return { room_id: id, token: secret, role: 'mac', task_id: next.rooms[id].task_id, lifetime: next.rooms[id].lifetime, mode: next.rooms[id].mode || 'legacy', invite, invite_expires_at: next.rooms[id].invite_expires };
         }
         const parts = url.pathname.split('/').filter(Boolean);
         if (parts.length !== 3 || parts[0] !== 'rooms' || !validId(parts[1])) fail(404, 'Not found');
         const room = next.rooms[parts[1]];
         if (!room) fail(404, 'Not found');
-        if (room.revoked || now() > room.expires_at) fail(410, 'Room closed or expired');
+        if (room.revoked || (room.expires_at !== null && now() >= room.expires_at)) fail(410, 'Room closed or expired');
         const action = parts[2];
         if (req.method === 'POST' && action === 'join') {
           if (now() - joinWindow > 60000) { joinWindow = now(); joinCount = 0; }
@@ -85,7 +91,7 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
           const secret = token();
           room.people.windows = { digest: hash(secret), confirmed: false, identity: randomBytes(8).toString('hex') };
           delete room.invite_digest; await save(next);
-          return { room_id: room.id, role: 'windows', token: secret };
+          return { room_id: room.id, role: 'windows', token: secret, task_id: room.task_id, lifetime: room.lifetime || 'daily', mode: room.mode || 'legacy' };
         }
         const role = participant(req, room), peer = role === 'mac' ? 'windows' : 'mac';
         const ready = () => !!room.people.mac.confirmed && !!room.people.windows?.confirmed;
@@ -94,38 +100,74 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
           if (room.people.windows) fail(409, 'Peer already joined; invitation cannot be refreshed');
           const invite = token();
           room.invite_digest = hash(invite);
-          room.invite_expires = Math.min(now() + 600000, room.expires_at);
+          room.invite_expires = Math.min(now() + 600000, room.expires_at ?? Infinity);
           await save(next);
           return { room_id: room.id, invite, invite_expires_at: room.invite_expires };
         }
-        if (req.method === 'GET' && action === 'status') return { room_id: room.id, role, ready: ready(), expires_at: room.expires_at,
+        if (req.method === 'GET' && action === 'status') return { room_id: room.id, mode: room.mode || 'legacy', tasks: room.mode === 'contact' ? Object.values(room.tasks) : undefined, role, task_id: room.task_id, lifetime: room.lifetime || 'daily', ready: ready(), expires_at: room.expires_at,
           identities: Object.fromEntries(Object.entries(room.people).map(([r, p]) => [r, p.identity])),
           confirmed: Object.fromEntries(Object.entries(room.people).map(([r, p]) => [r, p.confirmed])),
-          messages: room.messages.map(({ id, from, to, kind, reply_to, status }) => ({ id, from, to, kind, reply_to, status })) };
+          messages: room.messages.map(({ id, from, to, kind, reply_to, status, collaboration_id }) => ({ id, from, to, kind, reply_to, status, ...(collaboration_id ? { collaboration_id } : {}) })) };
         if (req.method === 'POST' && action === 'confirm') {
           if (!room.people[peer] || body.peer_identity !== room.people[peer].identity) fail(409, 'Compare peer identity before confirmation');
           room.people[role].confirmed = true; await save(next); return { ready: ready() };
         }
         if (req.method === 'POST' && action === 'close') { room.revoked = true; await save(next); return { closed: true }; }
         if (!ready()) fail(409, 'Both owners must confirm pairing first');
+        if (room.mode === 'contact' && action === 'tasks') {
+          if (req.method === 'GET') return { tasks: Object.values(room.tasks) };
+          if (req.method === 'POST') {
+            if (!validId(body.id) || typeof body.title !== 'string' || !body.title.trim() || body.title.length > 160 || body.scope !== 'demo-export') fail(400, 'Task needs id, title and explicit demo-export scope');
+            if (['__proto__', 'constructor', 'prototype'].includes(body.id)) fail(400, 'Reserved task ID');
+            const old = Object.hasOwn(room.tasks, body.id) ? room.tasks[body.id] : undefined;
+            if (old) {
+              if (old.title !== body.title || old.scope !== body.scope) fail(409, 'Task ID conflict');
+              return { task: old, duplicate: true };
+            }
+            if (Object.keys(room.tasks).length >= 1000) fail(429, 'Contact task capacity reached');
+            const task = { id: body.id, title: body.title, scope: body.scope, status: 'active', created_by: role, created_at: now() };
+            room.tasks[body.id] = task; await save(next); return { task, duplicate: false };
+          }
+        }
+        if (room.mode === 'contact' && req.method === 'GET' && action === 'task-history') {
+          const id = url.searchParams.get('id');
+          if (!Object.hasOwn(room.tasks, id)) fail(404, 'Task not found');
+          return { task: room.tasks[id], messages: room.messages.filter(m => m.collaboration_id === id) };
+        }
+        if (room.mode === 'contact' && req.method === 'POST' && action === 'archive-task') {
+          const task = Object.hasOwn(room.tasks, body.id) ? room.tasks[body.id] : undefined;
+          if (!task) fail(404, 'Task not found');
+          if (room.messages.some(m => m.collaboration_id === body.id && !['replied', 'received'].includes(m.status))) fail(409, 'Finish or inspect pending messages before archiving');
+          if (task.status !== 'archived') { task.status = 'archived'; task.archived_at = now(); await save(next); }
+          return { task };
+        }
         if (req.method === 'GET' && action === 'inbox') return { messages: room.messages.filter(m => m.to === role && m.status !== 'received' && m.status !== 'replied') };
         if (req.method === 'POST' && action === 'messages') {
-          if (!validId(body.id) || !['request', 'reply'].includes(body.kind) || typeof body.body !== 'string' || !body.body.trim() || body.body.length > 8000) fail(400, 'Invalid bounded message');
-          if (body.task_id !== room.task_id) fail(403, 'Only demo-export is authorized');
+          if (!validId(body.id) || !['request', 'reply'].includes(body.kind) || typeof body.body !== 'string' || !body.body.trim() || body.body.length > (body.kind === 'request' && room.task_id === reviewTask ? reviewLimit : 8000)) fail(400, 'Invalid bounded message');
+          if (body.task_id !== room.task_id) fail(403, 'Message task is outside room authorization');
+          if (body.kind === 'request' && room.task_id === reviewTask) {
+            try { validateReview(body.body); } catch { fail(400, 'Invalid authorized PR snapshot'); }
+          }
           if (body.kind === 'request' && body.id.length > 76) fail(400, 'Request ID too long');
-          const message = { id: body.id, task_id: room.task_id, from: role, to: peer, kind: body.kind, body: body.body, reply_to: body.reply_to || null };
+          const message = { id: body.id, task_id: room.task_id, from: role, to: peer, kind: body.kind, body: body.body, reply_to: body.reply_to || null, ...(room.mode === 'contact' ? { collaboration_id: body.collaboration_id } : {}) };
           const existing = room.messages.find(m => m.id === body.id);
           if (existing) {
             if (Object.keys(message).some(k => message[k] !== existing[k])) fail(409, 'Message ID conflict');
             return { id: existing.id, duplicate: true };
           }
+          if (room.mode === 'contact') {
+            const task = Object.hasOwn(room.tasks, body.collaboration_id) ? room.tasks[body.collaboration_id] : undefined;
+            if (!validId(body.collaboration_id) || !task) fail(400, 'Choose an existing contact task');
+            if (task.status !== 'active') fail(409, 'Task is archived');
+            if (body.task_id !== task.scope) fail(403, 'Task scope mismatch');
+          } else if (body.collaboration_id !== undefined) fail(400, 'Legacy rooms do not support contact tasks');
           if (message.kind === 'reply') {
             const request = room.messages.find(m => m.id === message.reply_to && m.from === peer && m.kind === 'request');
-            if (!request || room.messages.some(m => m.kind === 'reply' && m.reply_to === request.id)) fail(409, 'Reply must match one peer request');
+            if (!request || request.collaboration_id !== message.collaboration_id || room.messages.some(m => m.kind === 'reply' && m.reply_to === request.id)) fail(409, 'Reply must match one peer request');
             request.status = 'replied';
           } else {
             if (message.reply_to) fail(400, 'Requests do not set reply_to');
-            if (room.messages.filter(m => m.from === role && m.kind === 'request').length >= 10) fail(429, 'Pilot limit: ten requests per side');
+            if (room.messages.filter(m => m.from === role && m.kind === 'request' && (room.mode !== 'contact' || m.collaboration_id === message.collaboration_id)).length >= (room.lifetime === 'persistent' ? 1000 : 10)) fail(429, 'Room request capacity reached; rotate room');
           }
           room.messages.push({ ...message, status: 'queued', created_at: now() }); await save(next); return { id: message.id, duplicate: false };
         }

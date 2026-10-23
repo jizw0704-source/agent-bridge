@@ -38,3 +38,12 @@ test('skill status sanitizes CLI failure without calling it a proven network out
   assert.equal(result.status, 'attention-required'); assert.equal(result.relay.reachable, null);
   assert.equal(result.relay.error, '401'); assert(!JSON.stringify(result).includes('PRIVATE-TOKEN'));
 });
+test('skill status handles a non-expiring contact without claiming it expired', async () => {
+  const remote = { ready: true, role: 'mac', expires_at: null, lifetime: 'persistent', mode: 'contact', tasks: [{ id: 'one' }], identities: {}, messages: [] };
+  const f = await fixture('console.log(' + JSON.stringify(JSON.stringify(remote)) + ');');
+  const result = await inspectStatus(f.binding);
+  assert.equal(result.relay.reachable, true); assert.equal(result.relay.expires_at, null);
+  assert.equal(result.relay.expired, false); assert.equal(result.relay.task_count, 1);
+  await writeFile(join(f.peer, 'peer-state.json'), JSON.stringify({ threads: { one: 'thread-one' }, inbound: {}, outbound: {} }));
+  assert.equal((await inspectStatus(f.binding, { offline: true })).local.has_codex_session, true);
+});

@@ -69,3 +69,7 @@ Agent Bridge 以 [MIT 许可证](LICENSE) 开源。目前包含产品文档、�
 欢迎使用中文或英文参与讨论。英文文档从 [English README](README.en.md) 进入；产品决策与状态变更应同步更新中英文版本。
 
 分享案例时请去除个人身份、联系方式、合同原文、账户信息和凭证。文档中提及的第三方项目遵循各自的许可证。
+
+- [结构化交接 v1：格式、校验与验收边界](docs/STRUCTURED_HANDOFF.md)
+
+- [长期联系人与独立任务：本地实现与迁移边界](docs/CONTACTS_TASKS.md)

@@ -1,0 +1,16 @@
+{
+  "schema": "ab.handoff.v1",
+  "scope": "fictional",
+  "type": "test_report",
+  "case_id": "demo-cancel-001",
+  "revision": 1,
+  "summary": "虚构观察：取消保存后仍留下临时文件",
+  "references": [],
+  "details": {
+    "tested_version": "fictional-build-1",
+    "steps": ["模拟打开保存窗口", "模拟点击取消"],
+    "expected": "不新增目标文件、不覆盖已有文件、不残留临时文件",
+    "actual": "模拟存在临时文件；未执行实际产品测试",
+    "requested_response": "确认理解，列出缺失信息与建议验证步骤；不修改代码"
+  }
+}

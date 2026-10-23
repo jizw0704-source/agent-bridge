@@ -13,9 +13,9 @@ async function setup(options = {}) {
   const admin = JSON.parse(await readFile(join(root, 'admin.json'), 'utf8'));
   return { root, relay, admin: { url: relay.url, token: admin.token }, close: () => relay.close() };
 }
-async function pair(env) {
-  const room = await call(env.admin, 'create', {});
-  const mac = { url: env.relay.url, room_id: room.room_id, token: room.token, role: 'mac' };
+async function pair(env, options = {}) {
+  const room = await call(env.admin, 'create', options);
+  const mac = { url: env.relay.url, room_id: room.room_id, token: room.token, role: 'mac', task_id: room.task_id };
   const joined = await call({ ...mac, token: '' }, 'join', { invite: room.invite });
   const windows = { ...mac, role: 'windows', token: joined.token };
   const status = await call(mac, 'status');

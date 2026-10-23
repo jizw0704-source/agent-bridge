@@ -40,7 +40,7 @@ export async function inspectStatus(bindingPath = defaultBinding(), { offline = 
       pid: Number.isInteger(worker.pid) ? worker.pid : null, process_alive: processAlive,
       status_age_ms: age, status_fresh: age === null ? false : age < (worker.phase === 'processing' ? 200000 : 10000) };
   } else report.worker = { phase: 'not-observed', process_alive: null, status_fresh: false };
-  report.local = { state_present: !!state, has_codex_session: typeof state?.thread_id === 'string',
+  report.local = { state_present: !!state, has_codex_session: (typeof state?.thread_id === 'string' || Object.values(state?.threads || {}).some(x => typeof x === 'string')),
     inbound_count: Object.keys(state?.inbound || {}).length, outbound_count: Object.keys(state?.outbound || {}).length,
     blocked_count: Object.values(state?.inbound || {}).filter(item => ['failed', 'processing'].includes(item?.status)).length };
   if (offline) { report.relay = { checked: false }; return report; }
@@ -52,9 +52,10 @@ export async function inspectStatus(bindingPath = defaultBinding(), { offline = 
   }
   try {
     const remote = JSON.parse(child.stdout);
-    if (typeof remote.ready !== 'boolean' || !['mac', 'windows'].includes(remote.role) || !Number.isFinite(remote.expires_at)) throw new Error('Invalid status');
+    if (typeof remote.ready !== 'boolean' || !['mac', 'windows'].includes(remote.role) || !(Number.isFinite(remote.expires_at) || (remote.expires_at === null && remote.lifetime === 'persistent'))) throw new Error('Invalid status');
     report.relay = { checked: true, reachable: true, role: remote.role, ready: remote.ready,
-      expires_at: new Date(remote.expires_at).toISOString(), expired: remote.expires_at <= Date.now(),
+      expires_at: remote.expires_at === null ? null : new Date(remote.expires_at).toISOString(), expired: remote.expires_at !== null && remote.expires_at <= Date.now(),
+      mode: remote.mode === 'contact' ? 'contact' : 'legacy', task_count: Array.isArray(remote.tasks) ? remote.tasks.length : null,
       identities: Object.fromEntries(['mac', 'windows'].filter(role => /^[a-f0-9]{16}$/.test(remote.identities?.[role] || '')).map(role => [role, remote.identities[role]])),
       message_count: Array.isArray(remote.messages) ? remote.messages.length : null };
   } catch { report.status = 'attention-required'; report.relay = { checked: true, reachable: null, error: 'invalid-status-response' }; }

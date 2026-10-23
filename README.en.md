@@ -71,3 +71,7 @@ Agent Bridge is published under the [MIT License](LICENSE). The current pilot in
 **English and Chinese contributions are welcome.** Keep product decisions and status changes aligned in both language versions.
 
 Remove identifying details, contact information, actual contract text, account information, and credentials from examples you share. Referenced third-party projects remain subject to their own licenses.
+
+- [Structured handoffs v1: format, validation, and boundaries](docs/en/STRUCTURED_HANDOFF.md)
+
+- [Persistent contacts and separate tasks: local implementation and migration](docs/en/CONTACTS_TASKS.md)
