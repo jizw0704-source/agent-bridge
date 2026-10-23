@@ -47,3 +47,29 @@ test('large review inbox batches drain completely and full rooms reject new stor
     await assert.rejects(call(mac, 'messages', request('new')), /429.*storage capacity/);
   } finally { await relay.close(); }
 });
+
+
+test('inbox pagination does not starve later requests behind failed work', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'ab-failed-batch-')); await relayInit(root);
+  let relay = await startRelay({ root, port: 0 });
+  const admin = { url: relay.url, token: JSON.parse(await readFile(join(root, 'admin.json'))).token };
+  try {
+    const made = await call(admin, 'create', { lifetime: 'persistent', task_id: reviewTask });
+    const a = { ...admin, token: made.token, room_id: made.room_id };
+    const joined = await call(a, 'join', { invite: made.invite }); const b = { ...a, token: joined.token };
+    const status = await call(a, 'status'); await call(a, 'confirm', { peer_identity: status.identities.windows }); await call(b, 'confirm', { peer_identity: status.identities.mac });
+    const diff = 'diff --git a/x b/x\n+' + 'x'.repeat(380000);
+    const body = JSON.stringify({ version: 1, repo: reviewRepo, pr: 1, base: 'a'.repeat(40), head: 'b'.repeat(40), diff, sha256: createHash('sha256').update(diff).digest('hex') });
+    for (let i=0;i<7;i++) await call(a,'messages',{id:`f${i}`,task_id:reviewTask,kind:'request',body});
+    for (let i=0;i<6;i++) await call(b,'ack',{id:`f${i}`,status:'failed'});
+    assert.deepEqual((await call(b,'inbox')).messages.map(m=>m.id),['f6']);
+    const port = Number(new URL(relay.url).port); await relay.close();
+    const path = join(root,'relay-state.json'), state = JSON.parse(await readFile(path));
+    state.rooms[made.room_id].messages.push({id:'padding',body:'x'.repeat(12700000),status:'received'});
+    await writeFile(path,JSON.stringify(state)); relay=await startRelay({root,port});
+    // Space remains for a small request, but not its reserved future reply.
+    await assert.rejects(call(a,'messages',{id:'no-reserve',task_id:reviewTask,kind:'request',body}),/429/);
+    await call(b,'messages',{id:'r-f6',reply_to:'f6',task_id:reviewTask,kind:'reply',body:'x'.repeat(8000)});
+    assert.equal((await call(a,'inbox')).messages[0].body.length,8000);
+  } finally { await relay.close(); }
+});

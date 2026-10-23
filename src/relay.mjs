@@ -144,7 +144,7 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
         if (req.method === 'GET' && action === 'inbox') {
           const messages = []; let size = 0;
           for (const message of room.messages) {
-            if (message.to !== role || ['received', 'replied'].includes(message.status)) continue;
+            if (message.to !== role || ['received', 'replied', 'failed', 'processing'].includes(message.status)) continue;
             const length = JSON.stringify(message).length;
             if (messages.length && size + length > 2000000) break;
             messages.push(message); size += length;
@@ -178,7 +178,13 @@ export async function startRelay({ root, port = 8790, host = '127.0.0.1', tls = 
             if (message.reply_to) fail(400, 'Requests do not set reply_to');
             if (room.messages.filter(m => m.from === role && m.kind === 'request' && (room.mode !== 'contact' || m.collaboration_id === message.collaboration_id)).length >= (room.lifetime === 'persistent' ? 1000 : 10)) fail(429, 'Room request capacity reached; rotate room');
           }
-          if (JSON.stringify(room.messages).length + JSON.stringify(message).length > 16000000) fail(429, 'Room storage capacity reached; rotate room');
+          // Reserve worst-case JSON-escaped 8000-character replies for accepted requests.
+          // Failed/processing requests still reserve space until a reply exists.
+          const unreplied = room.messages.filter(m => m.kind === 'request' && m.status !== 'replied').length;
+          const pendingReplies = unreplied + (message.kind === 'request' ? 1 : 0);
+          const stored = { ...message, status: 'queued', created_at: now() };
+          const required = JSON.stringify([...room.messages, stored]).length + pendingReplies * 50048;
+          if (required > 16000000) fail(429, 'Room storage capacity reached; rotate room');
           room.messages.push({ ...message, status: 'queued', created_at: now() }); await save(next); return { id: message.id, duplicate: false };
         }
         if (req.method === 'POST' && action === 'ack') {

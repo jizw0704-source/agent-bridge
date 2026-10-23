@@ -41,3 +41,5 @@ node src/peer-cli.mjs close /PRIVATE/NEW-MAC-PEER
 服务器部署需要账号所有者提供合法可用的登录方式；本地测试不代表远端已上线。
 
 验证：`pnpm install --frozen-lockfile`、`pnpm check`、`pnpm test`、`git diff --check`。无独立格式化、lint、类型检查或构建。已通过全部自动化测试及本机真实 Codex 的虚构差异审核调用（无工具操作）。自动化包含持久化/时间推进、邀请失效、双方关闭、scope 拒绝、快照变化检测、接收器拒绝不匹配本地授权和无回复循环；不替代 Windows、真实 Wright、服务器或真机验收。
+
+审核补充：接收新请求时预留最坏 JSON 转义下的回复空间，容量将满时先拒绝新请求；失败或处理中消息仍保留状态，但不反复占据待收批次而挡住后续请求。
