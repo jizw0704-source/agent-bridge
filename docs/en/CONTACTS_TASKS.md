@@ -2,6 +2,8 @@
 
 [简体中文](../CONTACTS_TASKS.md) | [English](CONTACTS_TASKS.md)
 
+Deployment update, October 23, 2026: deployed to the relay and Mac; two-task pre-acceptance used real Codex. Actual upgraded Wright pairing is pending. See [deployment evidence](CONTACTS_DEPLOYMENT.md). The local-only description below is the pre-deployment baseline.
+
 Updated October 23, 2026. Implemented locally with automated validation; not deployed to the company server or accepted with actual Wright/Kaysen peers. Existing rooms and connectors keep their original behavior and expiry; no implicit migration or renewal.
 
 A contact is a mutually verified pair, retained until either person disconnects. Each contact has a separate private directory and receiver. There is no central address book or group chat. Storage retains rooms with mode=contact. Legacy mac/windows names are participant slots, not OS restrictions; actual Mac-to-Mac acceptance is still required.

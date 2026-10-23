@@ -21,3 +21,5 @@ Use the status helper first. Preserve existing state and credentials. Read only 
 Normal `stop` is graceful. On the configured Mac use the private `ab stop` / `ab start` helpers. A foreground Windows receiver can use Ctrl+C or `stop PEER_DIRECTORY`, then `run PEER_DIRECTORY`. Stopping one receiver is not revoking the room. `close` revokes both peers and requires an instruction to end the shared room.
 
 A bounded status/recovery attempt should end with evidence and the exact remaining blocker. Do not install a recurring monitor, keep retrying forever, or create a new automation unless the user asks for it.
+
+For mode=contact, expires_at=null is expected and does not remove TLS certificate expiry. A 410 may mean the relationship was explicitly revoked; inspect its provenance before proposing a new pairing. Archiving one task is not a disconnected contact. Use contact-cli stop/run for a contact directory; never revive or overwrite a legacy room to bypass expiry.
