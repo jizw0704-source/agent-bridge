@@ -123,3 +123,17 @@ test('public demo is explicitly synthetic and never exposes a live snapshot', as
     assert.equal((await call('/app.js')).status, 200);
   } finally { await observer.close(); }
 });
+
+
+test('persistent contacts do not appear expired and projection preserves task attribution without secrets', () => {
+  const clock = 1800000000000, state = fixture(clock), room = state.rooms.synthetic;
+  room.mode='contact'; room.expires_at=null;
+  room.tasks={a:{id:'a',title:'Fictional A',scope:'demo-export',status:'archived',token:'private-task-token'}};
+  room.messages[0].collaboration_id='a';
+  const projected=observerSnapshot(state,clock+86400000).rooms[0];
+  assert.equal(projected.status,'waiting'); assert.equal(projected.expires_at,null);
+  assert.equal(projected.messages[0].collaboration_id,'a');
+  assert.deepEqual(projected.tasks,[{id:'a',title:'Fictional A',scope:'demo-export',status:'archived'}]);
+  assert(!JSON.stringify(projected).includes('private-'));
+  room.expires_at=clock; assert.equal(observerSnapshot(state,clock).rooms[0].status,'expired');
+});

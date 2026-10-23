@@ -25,7 +25,8 @@ export function observerSnapshot(state, now = Date.now()) {
       kind: message.kind === 'reply' ? 'reply' : 'request', body: text(message.body),
       reply_to: typeof message.reply_to === 'string' ? message.reply_to : null,
       status: ['queued', 'processing', 'failed', 'replied', 'received'].includes(message.status) ? message.status : 'unknown',
-      created_at: time(message.created_at)
+      created_at: time(message.created_at),
+      collaboration_id: typeof message.collaboration_id === 'string' ? message.collaboration_id : null
     }));
     const requests = messages.filter(message => message.kind === 'request');
     const replies = new Set(messages.filter(message => message.kind === 'reply').map(message => message.reply_to));
@@ -33,11 +34,13 @@ export function observerSnapshot(state, now = Date.now()) {
     const failed = requests.filter(message => !replies.has(message.id) && message.status === 'failed').length;
     const pending = requests.length - answered;
     const paired = roles.every(role => room.people?.[role]?.confirmed === true);
-    const status = room.revoked ? 'closed' : now > room.expires_at ? 'expired' : !paired ? 'pairing'
+    const status = room.revoked ? 'closed' : Number.isFinite(room.expires_at) && now >= room.expires_at ? 'expired' : !paired ? 'pairing'
       : failed ? 'attention' : messages.some(message => message.status === 'processing') ? 'processing'
         : pending ? 'waiting' : requests.length ? 'answered' : 'ready';
     return {
       id: text(room.id), task_id: text(room.task_id),
+      mode: room.mode === 'contact' ? 'contact' : 'legacy',
+      tasks: room.mode === 'contact' ? Object.values(room.tasks || {}).map(task => ({ id: text(task.id), title: text(task.title), scope: text(task.scope), status: task.status === 'archived' ? 'archived' : 'active' })) : [],
       title: (requests[0]?.body || '').trim().split(/\r?\n/)[0].slice(0, 56),
       created_at: time(room.created_at), expires_at: time(room.expires_at),
       last_activity_at: Math.max(room.created_at || 0, ...messages.map(message => message.created_at || 0)),

@@ -2,6 +2,8 @@
 
 [简体中文](README.md) | [English](README.en.md)
 
+October 23, 2026: v0.4.0 persistent contacts and independent tasks deployed to relay and Mac; real Codex two-task pre-acceptance passed. Actual upgraded Wright Windows acceptance is pending. See [deployment](docs/en/CONTACTS_DEPLOYMENT.md) and [upgrade instructions](docs/en/WRIGHT_UPGRADE.md).
+
 Connect people's personal AI agents so they can communicate, negotiate, and coordinate within the permissions each person grants.
 
 **Status: product exploration plus a communication pilot. On October 20, 2026, a company LAN HTTPS relay was deployed and a Mac completed two simulated messaging rounds through it. Actual Windows/Wright interoperability remains unverified.** Started on September 9, 2026.
@@ -75,3 +77,7 @@ Agent Bridge is published under the [MIT License](LICENSE). The current pilot in
 **English and Chinese contributions are welcome.** Keep product decisions and status changes aligned in both language versions.
 
 Remove identifying details, contact information, actual contract text, account information, and credentials from examples you share. Referenced third-party projects remain subject to their own licenses.
+
+- [Structured handoffs v1: format, validation, and boundaries](docs/en/STRUCTURED_HANDOFF.md)
+
+- [Persistent contacts and separate tasks: local implementation and migration](docs/en/CONTACTS_TASKS.md)

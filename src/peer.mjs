@@ -3,11 +3,13 @@ import { join, resolve } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 import { atomicJSON, runCodex } from './bridge.mjs';
+import { reviewTask, validateReview } from './pr-review.mjs';
 import { relayRequest, safeEndpoint } from './relay.mjs';
 
 export const peerFixture = 'AB PEER PILOT: fictional export feature only. No project code.\n';
 export async function initPeer(root, config) {
   safeEndpoint(config.url);
+  if (config.task_id && !['demo-export', reviewTask].includes(config.task_id)) throw new Error('Invalid local task grant');
   if (!['mac', 'windows'].includes(config.role)) throw new Error('Invalid role');
   await mkdir(root, { recursive: true, mode: 0o700 });
   if ((await readdir(root)).length) throw new Error('Use an empty dedicated peer directory');
@@ -43,8 +45,10 @@ export class PeerWorker {
       await relayRequest(this.config, 'messages', item.message); item.sent = true; await this.save();
     }
   }
-  async sendRequest(body, id = randomUUID()) {
-    const message = { id, task_id: 'demo-export', kind: 'request', body };
+  async sendRequest(body, id = randomUUID(), collaborationId) {
+    if (this.config.task_id === reviewTask) validateReview(body);
+    if (this.config.mode === 'contact' && !collaborationId) throw new Error('Choose an explicit contact task');
+    const message = { id, task_id: this.config.task_id || 'demo-export', kind: 'request', body, ...(collaborationId ? { collaboration_id: collaborationId } : {}) };
     const old = this.state.outbound[id];
     if (old && JSON.stringify(old.message) !== JSON.stringify(message)) throw new Error('Outbound ID conflict');
     this.state.outbound[id] ||= { message, sent: false }; await this.save(); await this.flush(); return id;
@@ -57,7 +61,7 @@ export class PeerWorker {
       if (paths.includes('draft.json')) await rename(join(this.root, 'draft.json'), join(this.root, `draft-${randomUUID()}.json`));
       for (const name of (await readdir(this.root)).filter(n => /^draft-[a-f0-9-]{36}\.json$/.test(n))) {
         const draft = JSON.parse(await readFile(join(this.root, name), 'utf8'));
-        await this.sendRequest(draft.body, name.slice(6, -5));
+        await this.sendRequest(draft.body, name.slice(6, -5), draft.collaboration_id);
         await unlink(join(this.root, name));
       }
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
@@ -65,6 +69,8 @@ export class PeerWorker {
     const inbox = await relayRequest(this.config, 'inbox');
     for (const message of inbox.messages) {
       if (await this.stoppingNow()) break;
+      if (message.task_id !== (this.config.task_id || 'demo-export')) throw new Error('Inbound task outside local authorization');
+      if (message.kind === 'request' && this.config.task_id === reviewTask) validateReview(message.body);
       const old = this.state.inbound[message.id];
       if (message.kind === 'reply') {
         await atomicJSON(join(this.root, 'received', `${message.id}.json`), message);
@@ -81,12 +87,18 @@ export class PeerWorker {
       await relayRequest(this.config, 'ack', { id: message.id, status: 'processing' });
       await this.status('processing', message.id);
       try {
-        const result = await this.invoke({ cwd: join(this.root, 'sandbox'), threadId: this.state.thread_id,
-          message: { message_id: message.id, body: message.body }, outputDir: join(this.root, 'logs'), pilotRole: this.config.role });
-        if (this.state.thread_id && result.thread_id !== this.state.thread_id) throw new Error('Conversation changed');
+        const taskKey = message.collaboration_id;
+        if (this.config.mode === 'contact' && !taskKey) throw new Error('Contact request has no task');
+        const previousThread = taskKey ? this.state.threads?.[taskKey] : this.state.thread_id;
+        const result = await this.invoke({ cwd: join(this.root, 'sandbox'), threadId: this.config.task_id === reviewTask ? null : previousThread,
+          review: this.config.task_id === reviewTask, message: { message_id: message.id, body: message.body }, outputDir: join(this.root, 'logs'), pilotRole: this.config.role });
+        if (this.config.task_id !== reviewTask && previousThread && result.thread_id !== previousThread) throw new Error('Conversation changed');
         await assertPeer(this.root);
-        this.state.thread_id = result.thread_id;
-        const reply = { id: `r-${message.id}`, task_id: 'demo-export', kind: 'reply', reply_to: message.id, body: result.body };
+        if (this.config.task_id !== reviewTask) {
+          if (taskKey) { this.state.threads ||= {}; this.state.threads[taskKey] = result.thread_id; }
+          else this.state.thread_id = result.thread_id;
+        }
+        const reply = { id: `r-${message.id}`, task_id: this.config.task_id || 'demo-export', kind: 'reply', reply_to: message.id, body: result.body, ...(taskKey ? { collaboration_id: taskKey } : {}) };
         this.state.outbound[reply.id] = { message: reply, sent: false };
         this.state.inbound[message.id].status = 'replied'; await this.save();
         await this.flush(); this.log(`Replied ${message.id}`);

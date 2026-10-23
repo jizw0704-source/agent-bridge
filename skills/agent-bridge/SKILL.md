@@ -22,7 +22,7 @@ If the binding is missing, read [setup](references/setup.md). For existing conne
 ## Route the request
 
 - **Set up / join / invite / confirm:** read [setup](references/setup.md). Respect existing pairing; do not consume a real invitation during testing. Refreshing an unused invite invalidates the old one and does not extend room lifetime.
-- **Send a handoff / follow up / show replies:** read [handoffs](references/handoffs.md). Drafting and transmitting are distinct; use the user's authorized recipient and scope.
+- **Create/select/archive a task / send a handoff / follow up / show replies:** read [handoffs](references/handoffs.md). Drafting and transmitting are distinct; use the user's authorized recipient and scope.
 - **Offline / expired / failed / stop or restart:** read [recovery](references/recovery.md). Prefer read-only diagnosis, then the smallest authorized recovery. Failed model tasks are not automatically replayed.
 
 Commands normally use the selected application's existing CLI:

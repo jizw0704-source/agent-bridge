@@ -13,6 +13,10 @@ Current transport permits only a fictional `demo-export` discussion. Preserve th
 
 Do not include real repository contents, credentials or unrelated personal information. If the user asks for a real issue/PR handoff, explain the current scope and prepare the proposed text or implementation work instead of sending it as a fictional task.
 
+## Persistent contact tasks
+
+If live status reports mode=contact, read docs/CONTACTS_TASKS.md in the selected application and use src/contact-cli.mjs. Require an explicit task ID: `send CONTACT_DIRECTORY TASK_ID MESSAGE_FILE` or `send-structured CONTACT_DIRECTORY TASK_ID REPORT_JSON`. Never choose the most recent task implicitly. Use tasks and task-history to inspect the intended active collaboration. Replies and model conversations are isolated by collaboration_id; task_id still denotes the permission scope. Check local drafts as well as server messages before task-archive. Archival retains history and the contact; it is not business acceptance. Disconnect revokes the whole relationship and requires that explicit intent. Legacy peer-cli examples below apply only to legacy rooms.
+
 ## Queue once and verify
 
 Write the approved message as UTF-8 outside Git. Use the existing CLI:
